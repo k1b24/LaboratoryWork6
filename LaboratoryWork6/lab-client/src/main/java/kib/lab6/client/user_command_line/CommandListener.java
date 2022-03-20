@@ -1,9 +1,9 @@
 package kib.lab6.client.user_command_line;
 
 import kib.lab6.client.Config;
-import kib.lab6.client.abstractions.AbstractMessage;
 import kib.lab6.client.utils.SmartSplitter;
-import kib.lab6.client.utils.TextSender;
+import kib.lab6.common.abstractions.AbstractMessage;
+import kib.lab6.common.util.TextSender;
 
 import java.io.InputStream;
 import java.util.Arrays;

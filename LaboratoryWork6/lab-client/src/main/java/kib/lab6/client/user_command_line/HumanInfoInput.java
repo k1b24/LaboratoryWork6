@@ -1,11 +1,11 @@
 package kib.lab6.client.user_command_line;
 
-import kib.lab6.client.entities.HumanBeing;
-import kib.lab6.client.entities.enums.Mood;
-import kib.lab6.client.entities.enums.WeaponType;
-import kib.lab6.client.utils.HumanValidator;
-import kib.lab6.client.utils.StringToTypeConverter;
-import kib.lab6.client.utils.TextSender;
+import kib.lab6.common.entities.HumanBeing;
+import kib.lab6.common.entities.enums.Mood;
+import kib.lab6.common.entities.enums.WeaponType;
+import kib.lab6.common.util.HumanValidator;
+import kib.lab6.common.util.StringToTypeConverter;
+import kib.lab6.common.util.TextSender;
 
 import java.util.Arrays;
 import java.util.Scanner;

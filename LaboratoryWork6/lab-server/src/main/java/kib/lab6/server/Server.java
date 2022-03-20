@@ -7,6 +7,7 @@ public final class Server {
     }
 
     public static void main(String[] args) {
-
+        Application application = new Application();
+        application.launchApplication();
     }
 }

@@ -1,6 +1,6 @@
 package kib.lab6.client.user_command_line;
 
-import kib.lab6.client.abstractions.AbstractFileReader;
+import kib.lab6.common.abstractions.AbstractFileReader;
 
 import java.io.File;
 import java.io.FileNotFoundException;

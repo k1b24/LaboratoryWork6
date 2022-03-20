@@ -1,32 +1,24 @@
 package kib.lab6.client;
 
-import kib.lab6.client.csv_parser.CSVReader;
-import kib.lab6.client.user_command_line.CommandListener;
-import kib.lab6.client.utils.TextSender;
+import kib.lab6.common.util.Request;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Application {
 
-    private final CSVReader collectionFileReader;
-    private final CommandListener commandListener;
-
     public Application() {
-        collectionFileReader = new CSVReader();
-        commandListener = new CommandListener(System.in);
+
     }
 
     public void launchApplication() {
+        Request request1 = new Request("show", "");
+        Request request2 = new Request("info", "");
         try {
-            collectionFileReader.initializeFile(Config.getFilePath());
-            collectionFileReader.parseFile();
-            Config.getCollectionManager().fillWithArray(collectionFileReader.getInfoFromFile());
-            commandListener.readCommands();
-        } catch (FileNotFoundException e) {
-            TextSender.printError("Файл: " + Config.getFilePath() + " не найден");
-        } catch (NullPointerException e) {
-            TextSender.printError("Пожалуйста проинциализируйте системную переменную HUMAN_INFO, "
-                    + "содержащую путь до файла с информацией о коллекции");
+            ConnectionHandlerClient connectionHandlerClient = new ConnectionHandlerClient();
+            connectionHandlerClient.sendRequest(request1);
+            connectionHandlerClient.sendRequest(request2);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
