@@ -32,7 +32,7 @@ public class AvailableCommands {
         }
     };
 
-    public static final Set<String> commandsWithStringArgument = new HashSet<String>() {
+    public static final Set<String> commandsWithMoodArgument = new HashSet<String>() {
         {
             add("remove_by_any_mood");
         }

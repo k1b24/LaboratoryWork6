@@ -8,7 +8,7 @@ import kib.lab6.server.abstractions.AbstractCommand;
 public class Info extends AbstractCommand {
 
     public Info() {
-        super("info", "Вывести информацию о коллекции");
+        super("info", "Вывести информацию о коллекции", false);
     }
 
     @Override

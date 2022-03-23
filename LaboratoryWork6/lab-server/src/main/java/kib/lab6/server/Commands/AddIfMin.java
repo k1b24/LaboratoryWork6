@@ -11,7 +11,7 @@ public class AddIfMin extends AbstractCommand {
 
     public AddIfMin() {
         super("add_if_min", "Добавить введенный элемент в коллекцию, если его значение минимально,"
-                + " принимает на вход [Имя, наличие героизма(true/false), наличие зубочистки(true/false), скорость удара]");
+                + " принимает на вход [Имя, наличие героизма(true/false), наличие зубочистки(true/false), скорость удара]", false);
     }
 
     @Override

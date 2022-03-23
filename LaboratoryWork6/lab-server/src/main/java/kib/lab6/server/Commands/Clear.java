@@ -9,7 +9,7 @@ import kib.lab6.common.util.SuccessMessage;
 public class Clear extends AbstractCommand {
 
     public Clear() {
-        super("clear", "Очистить коллекцию");
+        super("clear", "Очистить коллекцию", false);
     }
 
     @Override

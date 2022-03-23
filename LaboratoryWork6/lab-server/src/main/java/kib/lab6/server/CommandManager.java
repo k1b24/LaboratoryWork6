@@ -48,12 +48,12 @@ public class CommandManager {
         commands.put("history", new History());
     }
 
-    public Object execute(Request requestFromServer) {
-        lastExecutedCommands.addFirst(commands.get(requestFromServer.getCommandNameToSend()));
+    public Object execute(Request requestFromClient) {
+        lastExecutedCommands.addFirst(commands.get(requestFromClient.getCommandNameToSend()));
         if (lastExecutedCommands.size() == AMOUNT_OF_COMMANDS_TO_SAVE) {
             lastExecutedCommands.pollLast();
         }
-        return commands.get(requestFromServer.getCommandNameToSend()).execute(requestFromServer);
+        return commands.get(requestFromClient.getCommandNameToSend()).execute(requestFromClient);
     }
 
     public ArrayDeque<AbstractCommand> getLastExecutedCommands() {

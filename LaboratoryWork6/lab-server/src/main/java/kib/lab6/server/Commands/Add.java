@@ -10,7 +10,7 @@ public class Add extends AbstractCommand {
 
     public Add() {
         super("add", "Добавить элемент в коллекцию, принимает на вход [Имя, наличие"
-                + " героизма(true/false), наличие зубочистки(true/false), скорость удара]");
+                + " героизма(true/false), наличие зубочистки(true/false), скорость удара]", false);
     }
 
     @Override

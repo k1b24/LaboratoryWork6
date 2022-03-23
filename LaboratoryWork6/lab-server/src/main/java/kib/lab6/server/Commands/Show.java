@@ -8,7 +8,7 @@ import kib.lab6.server.abstractions.AbstractCommand;
 public class Show extends AbstractCommand {
 
     public Show() {
-        super("show", "Вывести все элементы коллекции");
+        super("show", "Вывести все элементы коллекции", false);
     }
 
     @Override

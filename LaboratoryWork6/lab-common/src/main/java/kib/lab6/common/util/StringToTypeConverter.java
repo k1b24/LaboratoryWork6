@@ -10,7 +10,7 @@ public final class StringToTypeConverter {
     private StringToTypeConverter() {
 
     }
-    //TODO Слишком много условий в ифах ахуеть как это фиксить????
+
     public static Object toObject(Class<?> requiredClass, String value) throws IllegalArgumentException {
         Object result = null;
         if (checkBoolean(requiredClass)) {

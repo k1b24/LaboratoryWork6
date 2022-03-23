@@ -10,7 +10,7 @@ import kib.lab6.common.util.SuccessMessage;
 public class Head extends AbstractCommand {
 
     public Head() {
-        super("head", "Вывести первый элемент коллекции(голову очереди)");
+        super("head", "Вывести первый элемент коллекции(голову очереди)", false);
     }
 
     @Override

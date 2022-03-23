@@ -13,7 +13,7 @@ public class PrintDescending extends AbstractCommand {
 
     public PrintDescending() {
         super("print_descending", "Вывести"
-                + " коллекциию в порядке убывания");
+                + " коллекциию в порядке убывания", false);
     }
 
     @Override

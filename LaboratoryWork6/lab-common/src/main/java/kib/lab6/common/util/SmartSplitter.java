@@ -1,4 +1,4 @@
-package kib.lab6.client.utils;
+package kib.lab6.common.util;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,7 @@
 package kib.lab6.common.util;
 
 import kib.lab6.common.entities.HumanBeing;
+import kib.lab6.common.entities.enums.Mood;
 
 import java.io.Serializable;
 
@@ -10,13 +11,13 @@ import java.io.Serializable;
 
 public class Request implements Serializable {
 
-    String commandNameToSend;
-    String commandArgumentToSend;
-    HumanBeing humanToSend;
+    private final String commandNameToSend;
+    private HumanBeing humanToSend;
+    private int numberArgumentToSend;
+    private Mood moodArgumentToSend;
 
-    public Request(String name, String argument) {
+    public Request(String name) {
         this.commandNameToSend = name;
-        this.commandArgumentToSend = argument;
     }
 
     public Request(String name, HumanBeing human) {
@@ -24,21 +25,31 @@ public class Request implements Serializable {
         this.humanToSend = human;
     }
 
-    public Request(String name, String argument, HumanBeing human) {
+    public Request(String name, int argument, HumanBeing human) {
         this.commandNameToSend = name;
-        this.commandArgumentToSend = argument;
+        this.numberArgumentToSend = argument;
         this.humanToSend = human;
+    }
+
+    public Request(String name, int argument) {
+        this.commandNameToSend = name;
+        this.numberArgumentToSend = argument;
+    }
+
+    public Request(String name, Mood argument) {
+        this.commandNameToSend = name;
+        this.moodArgumentToSend = argument;
     }
 
     public String getCommandNameToSend() {
         return commandNameToSend;
     }
 
-    public String getCommandArgumentToSend() {
-        return commandArgumentToSend;
-    }
-
     public HumanBeing getHumanToSend() {
         return humanToSend;
+    }
+
+    public int getNumberArgumentToSend() {
+        return numberArgumentToSend;
     }
 }

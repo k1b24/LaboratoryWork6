@@ -8,23 +8,31 @@ import java.util.List;
 
 public abstract class AbstractCommand {
 
-    private static final List<AbstractCommand> COMMANDS_LIST = new ArrayList<>();
+    private static final List<AbstractCommand> CLIENT_COMMANDS_LIST = new ArrayList<>();
     private final String name;
     private final String description;
+    private final boolean onlyServerCommand;
 
 
-    public AbstractCommand(String name, String description) {
+    public AbstractCommand(String name, String description, boolean onlyServerCommand) {
         this.name = name;
         this.description = description;
-        COMMANDS_LIST.add(this);
+        this.onlyServerCommand = onlyServerCommand;
+        if (!onlyServerCommand) {
+            CLIENT_COMMANDS_LIST.add(this);
+        }
     }
 
     public String getName() {
         return name;
     }
 
+    public boolean isOnlyServerCommand() {
+        return onlyServerCommand;
+    }
+
     public List<AbstractCommand> getCommandsList() {
-        return COMMANDS_LIST;
+        return CLIENT_COMMANDS_LIST;
     }
 
     public String getDescription() {

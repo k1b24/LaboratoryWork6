@@ -1,10 +1,13 @@
 package kib.lab6.client.user_command_line;
 
+import kib.lab6.client.Config;
 import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.entities.enums.Mood;
 import kib.lab6.common.entities.enums.WeaponType;
+import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.HumanValidator;
 import kib.lab6.common.util.StringToTypeConverter;
+import kib.lab6.common.util.SuccessMessage;
 import kib.lab6.common.util.TextSender;
 
 import java.util.Arrays;
@@ -51,7 +54,7 @@ public class HumanInfoInput {
         setPrimitives();
     }
 
-    private void inputName() {
+    private void inputName() throws IllegalArgumentException {
         newHumanToInput.setName(name);
         boolean validationResult = HumanValidator.validateField(newHumanToInput, "name");
         if (!validationResult) {
@@ -60,7 +63,7 @@ public class HumanInfoInput {
     }
 
     private void inputX() throws NumberFormatException {
-        TextSender.printText("Введите X(целое число): ");
+        Config.getTextSender().printMessage(new SuccessMessage("Введите X(целое число): "));
         String userInput = scanner.nextLine();
         try {
             newHumanToInput.getCoordinates().setX((Long) StringToTypeConverter.toObject(Long.class, userInput));
@@ -69,18 +72,19 @@ public class HumanInfoInput {
                 inputX();
             }
         } catch (NumberFormatException e) {
-            TextSender.printError("Ошибка ввода числа X");
+            Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода числа X, повторите ввод"));
             inputX();
         }
     }
 
     private void inputY() throws NumberFormatException {
-        TextSender.printText("Введите Y(число с плавающей точкой): ");
+        Config.getTextSender().printMessage(new SuccessMessage("Введите Y(число с плавающей точкой): "));
         String userInput = scanner.nextLine();
         try {
             Float y = (Float) StringToTypeConverter.toObject(Float.class, userInput);
             if (y.equals(Float.NEGATIVE_INFINITY) || y.equals(Float.POSITIVE_INFINITY)) {
-                TextSender.printError("Введено слишком большое число для этого формата");
+                Config.getTextSender().printMessage(new ErrorMessage("Введено слишком большое"
+                        + " число для этого формата, повторите ввод"));
                 inputY();
             }
             newHumanToInput.getCoordinates().setY(y);
@@ -89,12 +93,12 @@ public class HumanInfoInput {
                 inputY();
             }
         } catch (NumberFormatException e) {
-            TextSender.printError("Ошибка ввода числа Y");
+            Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода числа Y, повторите ввод"));
             inputY();
         }
     }
 
-    private void inputRealHero() {
+    private void inputRealHero() throws IllegalArgumentException {
         boolean realHeroValue;
         if ("true".equals(this.realHero)) {
             newHumanToInput.setRealHero(true);
@@ -105,7 +109,7 @@ public class HumanInfoInput {
         }
     }
 
-    private void inputHasToothpick() {
+    private void inputHasToothpick() throws IllegalArgumentException {
         boolean hasToothpickValue;
         if ("true".equals(this.hasToothpick)) {
             newHumanToInput.setHasToothpick(true);
@@ -116,7 +120,7 @@ public class HumanInfoInput {
         }
     }
 
-    private void inputImpactSpeed() throws NumberFormatException {
+    private void inputImpactSpeed() throws IllegalArgumentException {
         if ("".equals(this.impactSpeed)) {
             newHumanToInput.setImpactSpeed(null);
         } else {
@@ -129,8 +133,9 @@ public class HumanInfoInput {
     }
 
     private void inputWeaponType() {
-        TextSender.printText("Введите тип оружия из предложенных вариантов или оставьте пустую строку, если оружия нет: ");
-        TextSender.printText(Arrays.toString(WeaponType.values()));
+        Config.getTextSender().printMessage(new SuccessMessage("Введите тип оружия из предложенных вариантов"
+                + " или оставьте пустую строку, если оружия нет: "));
+        Config.getTextSender().printMessage(new SuccessMessage(Arrays.toString(WeaponType.values())));
         String userInput = scanner.nextLine();
         if ("".equals(userInput)) {
             newHumanToInput.setWeaponType(null);
@@ -138,7 +143,7 @@ public class HumanInfoInput {
             try {
                 newHumanToInput.setWeaponType((WeaponType) StringToTypeConverter.toObject(WeaponType.class, userInput));
             } catch (IllegalArgumentException e) {
-                TextSender.printError("Ошибка ввода типа оружия");
+                Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода типа оружия, повторите ввод"));
                 inputWeaponType();
             }
         }
@@ -146,8 +151,8 @@ public class HumanInfoInput {
     }
 
     private void inputMood() {
-        TextSender.printText("Введите настроение из предложенных вариантов или оставьте пустую строку, если человек дед инсайд: ");
-        TextSender.printText(Arrays.toString(Mood.values()));
+        Config.getTextSender().printMessage(new SuccessMessage("Введите настроение из предложенных вариантов или оставьте пустую строку, если человек дед инсайд: "));
+        Config.getTextSender().printMessage(new SuccessMessage(Arrays.toString(Mood.values())));
         String userInput = scanner.nextLine();
         if ("".equals(userInput)) {
             newHumanToInput.setMood(null);
@@ -155,39 +160,39 @@ public class HumanInfoInput {
             try {
                 newHumanToInput.setMood((Mood) StringToTypeConverter.toObject(Mood.class, userInput));
             } catch (IllegalArgumentException e) {
-                TextSender.printError("Ошибка ввода типа настроения");
+                Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода типа настроения, повторите ввод"));
                 inputWeaponType();
             }
         }
     }
 
     private void inputCarSpeed() {
-        TextSender.printText("Введите скорость машины: ");
+        Config.getTextSender().printMessage(new SuccessMessage("Введите скорость машины: "));
         String userInput = scanner.nextLine();
         try {
             newHumanToInput.getCar().setCarSpeed((Integer) StringToTypeConverter.toObject(Integer.class, userInput));
         } catch (NumberFormatException e) {
-            TextSender.printError("Ошибка ввода скорости машины");
+            Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода скорости машины, повторите ввод"));
             inputCarSpeed();
         }
     }
 
     private void inputCarCoolness() {
-        TextSender.printText("Машина крутая?[y/n]: ");
+        Config.getTextSender().printMessage(new SuccessMessage("Машина крутая?[y/n]: "));
         String userInput = scanner.nextLine().toLowerCase();
         if ("y".equals(userInput)) {
             userInput = "true";
         } else if ("n".equals(userInput)) {
             userInput = "false";
         } else {
-            TextSender.printError("Ошибка ввода крутости машины");
+            Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода крутости машины, повторите ввод"));
             inputCarCoolness();
         }
         newHumanToInput.getCar().setCarCoolness((Boolean) StringToTypeConverter.toObject(Boolean.class, userInput));
     }
 
     private void inputCar() {
-        TextSender.printText("Есть ли у человека машина?[y/n]");
+        Config.getTextSender().printMessage(new SuccessMessage("Есть ли у человека машина?[y/n]"));
         String userAnswer = scanner.nextLine();
         if ("y".equals(userAnswer)) {
             inputCarCoolness();
@@ -195,7 +200,7 @@ public class HumanInfoInput {
         } else if ("n".equals(userAnswer)) {
             newHumanToInput.setCar(null);
         } else {
-            TextSender.printError("Ошибка ввода");
+            Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода, повторите ввод"));
             inputCar();
         }
     }

@@ -12,7 +12,7 @@ public class History extends AbstractCommand {
 
     public History() {
         super("history", "Вывести информацию по последним"
-                + " 10 исполненным командам");
+                + " 10 исполненным командам", false);
     }
 
     @Override

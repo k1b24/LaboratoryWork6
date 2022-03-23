@@ -12,7 +12,7 @@ public class Help extends AbstractCommand {
     private static final int AMOUNT_OF_ARGS = 0;
 
     public Help() {
-        super("help", "Вывести справку по доступным командам");
+        super("help", "Вывести справку по доступным командам", false);
     }
 
     @Override

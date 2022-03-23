@@ -13,18 +13,18 @@ public class RemoveByAnyMood extends AbstractCommand {
 
     public RemoveByAnyMood() {
         super("remove_by_any_mood", "Удалить любого человека из коллекции по его настроению,"
-                + " принимает на вход тип настроения " + Arrays.toString(Mood.values()));
+                + " принимает на вход тип настроения " + Arrays.toString(Mood.values()), false);
     }
 
     @Override
     public Object execute(Request request) {
         Mood moodToRemove;
-        if ("".equals(request.getCommandArgumentToSend())) {
+        if ("".equals(request.getStringToSend())) {
             moodToRemove = null;
         } else {
-            moodToRemove = Mood.valueOf(request.getCommandArgumentToSend().toUpperCase());
+            moodToRemove = Mood.valueOf(request.getStringArgumentToSend().toUpperCase());
         }
         Config.getCollectionManager().removeHumanByAnyMood(moodToRemove);
-        return new SuccessMessage("Случайный человек с настроением " + request.getCommandArgumentToSend() + " удален");
+        return new SuccessMessage("Случайный человек с настроением " + request.getStringArgumentToSend() + " удален");
     }
 }

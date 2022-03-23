@@ -7,7 +7,7 @@ public class ExecuteScript extends AbstractCommand {
 
     public ExecuteScript() {
         super("execute_script", "Выполнить скрипт из файла, принимает"
-                + " на вход один аргумент [file_path]");
+                + " на вход один аргумент [file_path]", false);
     }
 
     @Override

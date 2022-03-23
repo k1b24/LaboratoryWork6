@@ -1,41 +1,33 @@
 package kib.lab6.client;
 
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Serializer;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
-import java.net.InetSocketAddress;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
 
 public class ConnectionHandlerClient {
 
     private static final int SERVER_PORT = 1337;
-    private static final int DATAGRAM_SIZE = 4096;
-    private DatagramChannel datagramChannel;
+    DatagramSocket datagramSocket;
+    InetAddress serverAddress;
 
-    public ConnectionHandlerClient() throws IOException {
-        datagramChannel = DatagramChannel.open();
-        datagramChannel.bind(null);
+    public ConnectionHandlerClient(String address) throws UnknownHostException, SocketException {
+        datagramSocket = new DatagramSocket();
+        serverAddress = InetAddress.getByName(address);
     }
 
-    public void sendRequest(Request request) throws IOException, ClassNotFoundException {
-        InetSocketAddress isa = new InetSocketAddress("localhost", SERVER_PORT); //TODO Должен вводить юзер
-        datagramChannel.send(createBuffer(request), isa);
+    public void sendRequest(Request request) throws IOException {
+        ByteBuffer byteBuffer = Serializer.serializeRequest(request);
+        byte[] bufferToSend = byteBuffer.array();
+        DatagramPacket datagramPacket = new DatagramPacket(bufferToSend, bufferToSend.length, serverAddress, SERVER_PORT);
     }
 
-    private ByteBuffer createBuffer(Request request) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream(DATAGRAM_SIZE);
-        ObjectOutputStream oos = new ObjectOutputStream(bytes);
-        oos.writeObject(request);
-        oos.flush();
-        ByteBuffer bufferToSend = ByteBuffer.wrap(bytes.toByteArray());
-        oos.close();
-        bytes.close();
-        return bufferToSend;
-    }
 
 
 }
