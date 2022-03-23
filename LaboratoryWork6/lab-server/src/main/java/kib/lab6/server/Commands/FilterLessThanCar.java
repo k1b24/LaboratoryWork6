@@ -18,7 +18,7 @@ public class FilterLessThanCar extends AbstractCommand {
 
     @Override
     public Object execute(Request request) {
-        int speedFilter = Integer.parseInt(request.getStringArgumentToSend());
+        int speedFilter = request.getNumberArgumentToSend();
         ArrayList<HumanBeing> listToReturn = Config.getCollectionManager().filterByCarSpeed(speedFilter);
         return new SuccessMessage(listToReturn.stream()
                 .map(HumanBeing::toString)

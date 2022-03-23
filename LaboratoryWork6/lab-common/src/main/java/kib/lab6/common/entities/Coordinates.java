@@ -1,11 +1,12 @@
 package kib.lab6.common.entities;
 
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 
 /**
  * Класс описывающий объект координаты
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
 
     private static final int MIN_X_VALUE = -759;
     @Min(MIN_X_VALUE)

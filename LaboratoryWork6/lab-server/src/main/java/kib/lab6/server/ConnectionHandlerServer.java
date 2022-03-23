@@ -1,53 +1,59 @@
 package kib.lab6.server;
 
+import kib.lab6.common.util.ConnectionConfig;
 import kib.lab6.common.util.Request;
 import kib.lab6.common.util.Response;
+import kib.lab6.common.util.Serializer;
 
-import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.util.Iterator;
+import java.util.Set;
 
-public class ConnectionHandlerServer implements Closeable {
+public class ConnectionHandlerServer {
 
-    private static final int SERVER_PORT = 1337;
-    private static final int DATAGRAM_SIZE = 4096;
+    private Selector selector;
     private DatagramChannel datagramChannel;
-    private SocketAddress clientAdress;
+    private SocketAddress socketAddress;
 
     public ConnectionHandlerServer() throws IOException {
-        openChannels();
-    }
-
-    private void openChannels() throws IOException {
-        InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", SERVER_PORT);
         datagramChannel = DatagramChannel.open();
-        datagramChannel.bind(inetSocketAddress);
-        //datagramChannel.configureBlocking(false);
+        selector = Selector.open();
+        datagramChannel.socket().bind(new InetSocketAddress(ConnectionConfig.getServerPort()));
+        datagramChannel.configureBlocking(false);
+        datagramChannel.register(selector, SelectionKey.OP_READ);
     }
 
-    public byte[] listen() throws IOException, ClassNotFoundException {
-        ByteBuffer buffer = ByteBuffer.allocate(DATAGRAM_SIZE);
-        clientAdress = datagramChannel.receive(buffer);
-        buffer.flip();
-        byte[] bytes = new byte[buffer.remaining()];
-        buffer.get(bytes);
-        return bytes;
+    public Request listen() throws ClassNotFoundException, IOException {
+        selector.select(); //убрал проверку на количество готовых каналов (видимо она не имеет смысла но не факт, надо тестить саму прогу)
+        Set<SelectionKey> readyKeys = selector.selectedKeys();
+        Iterator<SelectionKey> iterator = readyKeys.iterator();
+        while (iterator.hasNext()) {
+            SelectionKey key = iterator.next();
+            iterator.remove();
+
+            if (key.isReadable()) {
+                ByteBuffer packet = ByteBuffer.allocate(4096);
+                socketAddress = datagramChannel.receive(packet);
+                packet.flip();
+                byte[] bytes = new byte[packet.remaining()];
+                packet.get(bytes);
+                Request request = Serializer.deserializeRequest(bytes);
+                System.out.println(socketAddress);
+                return request;
+            }
+        }
+        return null;
     }
 
     public void sendResponse(Response response) throws IOException {
-        ByteBuffer buffer = ByteBuffer.allocate(DATAGRAM_SIZE);
-        datagramChannel.write(buffer);
-    }
-
-    //private ByteBuffer
-
-    @Override
-    public void close() throws IOException {
-        datagramChannel.close();
+        ByteBuffer bufferToSend = Serializer.serializeResponse(response);
+        datagramChannel.send(bufferToSend, socketAddress);
     }
 }

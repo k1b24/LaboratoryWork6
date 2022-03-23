@@ -14,7 +14,7 @@ public class Update extends AbstractCommand {
 
     @Override
     public Object execute(Request request) {
-        int id = Integer.parseInt(request.getStringArgumentToSend());
+        int id = request.getNumberArgumentToSend();
         Config.getCollectionManager().setHumanById(id, request.getHumanToSend());
         return new SuccessMessage("Объект успешно добавлен в коллекцию");
     }

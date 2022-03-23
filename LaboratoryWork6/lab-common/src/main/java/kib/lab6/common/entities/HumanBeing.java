@@ -8,13 +8,15 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *  Класс человек, коллекцией экземпляров которого управляет коллекция и пользователь в интерактивном режиме
  */
-public class HumanBeing implements Comparable<HumanBeing> {
-
+public class HumanBeing implements Comparable<HumanBeing>, Serializable {
+    //TODO Human being лежит в Common и статичные переменные для экземпляров имеют свои значения на клиенте и на
+    // сервере если добавляю с клиента хумана ему дается 1, а не количество хуманов + 1
     private static final int MAX_IMPACT_SPEED_VALUE = 712;
     private static long idCounter = 1;
     private long id;

@@ -14,28 +14,29 @@ public final class HumanValidator {
 
     private static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
     private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
+    private final TextSender textSender;
 
-    private HumanValidator() {
-
+    public HumanValidator(TextSender textSender) {
+        this.textSender = textSender;
     }
 
-    public static boolean validateHuman(HumanBeing human) {
+    public boolean validateHuman(HumanBeing human) {
         Set<ConstraintViolation<HumanBeing>> validateResult = VALIDATOR.validate(human);
         if (validateResult.size() > 0) {
-//            for (ConstraintViolation<HumanBeing> violation : validateResult) {
-//                TextSender.printError(violation.getPropertyPath() + " " + violation.getMessage());
-//            }
+            for (ConstraintViolation<HumanBeing> violation : validateResult) {
+                textSender.printMessage(new ErrorMessage(violation.getPropertyPath() + " " + violation.getMessage()));
+            }
             return false;
         }
         return true;
     }
 
-    public static <T> boolean validateField(T t, String fieldName) {
+    public <T> boolean validateField(T t, String fieldName) {
         Set<ConstraintViolation<T>> validateResult = VALIDATOR.validateProperty(t, fieldName);
         if (validateResult.size() > 0) {
-//            for (ConstraintViolation<T> violation : validateResult) {
-//                TextSender.printError(violation.getPropertyPath() + " " + violation.getMessage());
-//            }
+            for (ConstraintViolation<T> violation : validateResult) {
+                textSender.printMessage(new ErrorMessage(violation.getPropertyPath() + " " + violation.getMessage()));
+            }
             return false;
         }
         return true;

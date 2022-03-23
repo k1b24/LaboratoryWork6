@@ -5,6 +5,7 @@ import kib.lab6.client.utils.RequestCreator;
 import kib.lab6.common.InputedCommand;
 import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.common.util.SuccessMessage;
 
 import java.io.IOException;
@@ -36,12 +37,21 @@ public class Application {
                 if (request == null) {
                     Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода команды, введите help для "
                             + "получения справки по командам"));
+                    continue;
                 }
                 try {
                     connectionHandlerClient.sendRequest(request);
                 } catch (IOException e) {
                     Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при сериализации "
                             + "запроса, повторите попытку"));
+                }
+                try {
+                    Response response = connectionHandlerClient.recieveResponse();
+                    Config.getTextSender().printMessage(response.getMessage());
+                } catch (IOException e) {
+                    Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при получении ответа от сервера"));
+                } catch (ClassNotFoundException e) {
+                    Config.getTextSender().printMessage(new ErrorMessage("Сервер прислал пакет, который невозможно десериализовать"));
                 }
             }
 

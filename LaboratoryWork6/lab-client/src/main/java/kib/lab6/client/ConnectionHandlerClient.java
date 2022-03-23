@@ -1,6 +1,7 @@
 package kib.lab6.client;
 
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.common.util.Serializer;
 
 import java.io.IOException;
@@ -26,8 +27,16 @@ public class ConnectionHandlerClient {
         ByteBuffer byteBuffer = Serializer.serializeRequest(request);
         byte[] bufferToSend = byteBuffer.array();
         DatagramPacket datagramPacket = new DatagramPacket(bufferToSend, bufferToSend.length, serverAddress, SERVER_PORT);
+        datagramSocket.send(datagramPacket);
     }
 
-
+    public Response recieveResponse() throws ClassNotFoundException, IOException {
+        byte[] byteBuf = new byte[4096];
+        DatagramPacket dpFromServer = new DatagramPacket(byteBuf, byteBuf.length);
+        datagramSocket.receive(dpFromServer);
+        byte[] bytesFromServer = dpFromServer.getData();
+        Response responseFromServer = Serializer.deserializeResponse(bytesFromServer);
+        return responseFromServer;
+    }
 
 }

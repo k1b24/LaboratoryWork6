@@ -11,7 +11,7 @@ public class AvailableCommands {
             add("clear");
             add("head");
             add("info");
-            add("pring_descending");
+            add("print_descending");
             add("show");
             add("help");
             add("history");

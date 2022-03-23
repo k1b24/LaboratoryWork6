@@ -56,7 +56,7 @@ public class HumanInfoInput {
 
     private void inputName() throws IllegalArgumentException {
         newHumanToInput.setName(name);
-        boolean validationResult = HumanValidator.validateField(newHumanToInput, "name");
+        boolean validationResult = Config.getHumanValidator().validateField(newHumanToInput, "name");
         if (!validationResult) {
             throw new IllegalArgumentException("Ошибка ввода имени человека");
         }
@@ -67,7 +67,7 @@ public class HumanInfoInput {
         String userInput = scanner.nextLine();
         try {
             newHumanToInput.getCoordinates().setX((Long) StringToTypeConverter.toObject(Long.class, userInput));
-            boolean validationResult = HumanValidator.validateField(newHumanToInput.getCoordinates(), "x");
+            boolean validationResult = Config.getHumanValidator().validateField(newHumanToInput.getCoordinates(), "x");
             if (!validationResult) {
                 inputX();
             }
@@ -88,7 +88,7 @@ public class HumanInfoInput {
                 inputY();
             }
             newHumanToInput.getCoordinates().setY(y);
-            boolean validationResult = HumanValidator.validateField(newHumanToInput.getCoordinates(), "y");
+            boolean validationResult = Config.getHumanValidator().validateField(newHumanToInput.getCoordinates(), "y");
             if (!validationResult) {
                 inputY();
             }
@@ -125,7 +125,7 @@ public class HumanInfoInput {
             newHumanToInput.setImpactSpeed(null);
         } else {
             newHumanToInput.setImpactSpeed((Integer) StringToTypeConverter.toObject(Integer.class, this.impactSpeed));
-            boolean validationResult = HumanValidator.validateField(newHumanToInput, "impactSpeed");
+            boolean validationResult = Config.getHumanValidator().validateField(newHumanToInput, "impactSpeed");
             if (!validationResult) {
                 throw new IllegalArgumentException("Ошибка ввода скорости удара человека");
             }

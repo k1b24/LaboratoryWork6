@@ -52,7 +52,7 @@ public class CSVReader extends AbstractFileReader {
         readPeople();
         for (HashMap<String, String> humanInfo : peopleInfo) {
             HumanBeing newHuman = createHuman(humanInfo);
-            if (HumanValidator.validateHuman(newHuman)) {
+            if (Config.getHumanValidator().validateHuman(newHuman)) {
                 humanArray.add(newHuman);
             } else {
                 Config.getTextSender().printMessage(new ErrorMessage("Ошибка при валидации данных, прочитанных из файла"));

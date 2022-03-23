@@ -15,7 +15,7 @@ public class RemoveByID extends AbstractCommand {
 
     @Override
     public Object execute(Request request) {
-        int id = Integer.parseInt(request.getStringArgumentToSend());
+        int id = request.getNumberArgumentToSend();
         if (id <= Config.getCollectionManager().getLength() && id > 0) {
             Config.getCollectionManager().removeHumanById(id);
             return new SuccessMessage("Человек с ID " + id + " успешно удален");

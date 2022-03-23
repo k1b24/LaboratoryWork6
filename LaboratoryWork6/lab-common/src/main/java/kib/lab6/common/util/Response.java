@@ -11,4 +11,8 @@ public class Response implements Serializable {
     public Response(AbstractMessage message) {
         this.message = message;
     }
+
+    public AbstractMessage getMessage() {
+        return message;
+    }
 }

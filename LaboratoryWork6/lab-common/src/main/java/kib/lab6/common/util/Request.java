@@ -5,10 +5,6 @@ import kib.lab6.common.entities.enums.Mood;
 
 import java.io.Serializable;
 
-/*TODO Может быть имеет смысл передавать не строку а число, раз уж храним не всегда нужное поле хумана,
-    то можно хранить и не всегда нужные числовые, строковые аргументы, в этом есть плюс, так-как на сервере
-    не будет использоваться parseInt и прочие функции*/
-
 public class Request implements Serializable {
 
     private final String commandNameToSend;
@@ -51,5 +47,9 @@ public class Request implements Serializable {
 
     public int getNumberArgumentToSend() {
         return numberArgumentToSend;
+    }
+
+    public Mood getMoodArgumentToSend() {
+        return moodArgumentToSend;
     }
 }

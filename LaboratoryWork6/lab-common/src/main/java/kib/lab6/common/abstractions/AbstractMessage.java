@@ -1,6 +1,8 @@
 package kib.lab6.common.abstractions;
 
-public abstract class AbstractMessage {
+import java.io.Serializable;
+
+public abstract class AbstractMessage implements Serializable {
 
     public static final String ANSI_RESET = "\u001B[0m"; //ANSI_RESET
     private final String message;

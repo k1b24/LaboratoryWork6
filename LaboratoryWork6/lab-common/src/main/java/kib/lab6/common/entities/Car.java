@@ -1,9 +1,11 @@
 package kib.lab6.common.entities;
 
+import java.io.Serializable;
+
 /**
  * Класс описывающий объект машина
  */
-public class Car {
+public class Car implements Serializable {
 
     private Boolean carCoolness; //Поле может быть null
     private int carSpeed;
