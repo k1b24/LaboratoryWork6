@@ -1,5 +1,6 @@
 package kib.lab6.client;
 
+import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
 import kib.lab6.common.util.Response;
 import kib.lab6.common.util.Serializer;
@@ -9,8 +10,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class ConnectionHandlerClient {
 
@@ -24,6 +27,7 @@ public class ConnectionHandlerClient {
     }
 
     public void sendRequest(Request request) throws IOException {
+
         ByteBuffer byteBuffer = Serializer.serializeRequest(request);
         byte[] bufferToSend = byteBuffer.array();
         DatagramPacket datagramPacket = new DatagramPacket(bufferToSend, bufferToSend.length, serverAddress, SERVER_PORT);
@@ -33,10 +37,10 @@ public class ConnectionHandlerClient {
     public Response recieveResponse() throws ClassNotFoundException, IOException {
         byte[] byteBuf = new byte[4096];
         DatagramPacket dpFromServer = new DatagramPacket(byteBuf, byteBuf.length);
+        datagramSocket.setSoTimeout(5000);
         datagramSocket.receive(dpFromServer);
         byte[] bytesFromServer = dpFromServer.getData();
-        Response responseFromServer = Serializer.deserializeResponse(bytesFromServer);
-        return responseFromServer;
+        return Serializer.deserializeResponse(bytesFromServer);
     }
 
 }
