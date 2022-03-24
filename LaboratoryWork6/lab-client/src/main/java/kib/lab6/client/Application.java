@@ -31,7 +31,6 @@ public class Application {
             InputedCommand userInputedCommand = commandListener.readCommand();
             if ("exit".equals(userInputedCommand.getName().toLowerCase())) {
                 listeningAndSendingModeOn = false;
-                continue;
             } else {
                 Request request = requestCreator.createRequestFromInputedCommand(userInputedCommand);
 

@@ -5,7 +5,6 @@ import kib.lab6.common.util.Request;
 import kib.lab6.common.util.Response;
 import kib.lab6.common.util.Serializer;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -39,7 +38,7 @@ public class ConnectionHandlerServer {
             iterator.remove();
 
             if (key.isReadable()) {
-                ByteBuffer packet = ByteBuffer.allocate(4096);
+                ByteBuffer packet = ByteBuffer.allocate(ConnectionConfig.getByteBufferSize());
                 socketAddress = datagramChannel.receive(packet);
                 packet.flip();
                 byte[] bytes = new byte[packet.remaining()];

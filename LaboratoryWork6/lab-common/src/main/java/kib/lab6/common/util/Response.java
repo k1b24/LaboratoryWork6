@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Response implements Serializable {
 
-    AbstractMessage message;
+    private final AbstractMessage message;
 
     public Response(AbstractMessage message) {
         this.message = message;

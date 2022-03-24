@@ -12,15 +12,13 @@ import java.util.Scanner;
  */
 public class ClientCommandListener {
 
-    private final InputStream commandsInputStream;
-    Scanner scanner;
+    private final Scanner scanner;
 
     /**
      * Конструктор
      */
     public ClientCommandListener(InputStream inputStream) {
-        this.commandsInputStream = inputStream;
-        this.scanner = new Scanner(commandsInputStream);
+        this.scanner = new Scanner(inputStream);
     }
 
     public InputedCommand readCommand() {

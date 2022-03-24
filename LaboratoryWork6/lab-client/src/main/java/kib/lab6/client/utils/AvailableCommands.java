@@ -1,52 +1,40 @@
 package kib.lab6.client.utils;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-public class AvailableCommands {
-    public static final Set<String> commandsWithoutArguments = new HashSet<String>() {
-        {
-            add("clear");
-            add("head");
-            add("info");
-            add("print_descending");
-            add("show");
-            add("help");
-            add("history");
-        }
-    };
+public final class AvailableCommands {
 
-    public static final Set<String> commandsWithHumanBeingArgument = new HashSet<String>() {
-        {
-            add("add");
-            add("add_if_min");
-        }
-    };
+    public static final Set<String> COMMANDS_WITHOUT_ARGUMENTS = new HashSet<>();
 
-    public static final Set<String> commandsWithNumberArgument = new HashSet<String>() {
-        {
-            add("filter_less_than_car");
-            add("remove_by_id");
-        }
-    };
+    public static final Set<String> COMMANDS_WITH_HUMAN_BEING_ARGUMENT = new HashSet<>();
 
-    public static final Set<String> commandsWithMoodArgument = new HashSet<String>() {
-        {
-            add("remove_by_any_mood");
-        }
-    };
+    public static final Set<String> COMMANDS_WITH_NUMBER_ARGUMENT = new HashSet<>();
 
-    public static final Set<String> commandsWithHumanBeingAndNumberArguments = new HashSet<String>() {
-        {
-            add("update");
-        }
-    };
+    public static final Set<String> COMMANDS_WITH_MOOD_ARGUMENT = new HashSet<>();
 
-    public static final Set<String> scriptArgumentCommands = new HashSet<String>() {
-        {
-            add("execute_script");
-        }
-    };
+    public static final Set<String> COMMANDS_WITH_HUMAN_BEING_AND_NUMBER_ARGUMENTS = new HashSet<>();
+
+    public static final Set<String> SCRIPT_ARGUMENT_COMMANDS = new HashSet<>();
+
+    static {
+        COMMANDS_WITHOUT_ARGUMENTS.add("clear");
+        COMMANDS_WITHOUT_ARGUMENTS.add("head");
+        COMMANDS_WITHOUT_ARGUMENTS.add("info");
+        COMMANDS_WITHOUT_ARGUMENTS.add("print_descending");
+        COMMANDS_WITHOUT_ARGUMENTS.add("show");
+        COMMANDS_WITHOUT_ARGUMENTS.add("help");
+        COMMANDS_WITHOUT_ARGUMENTS.add("history");
+        COMMANDS_WITH_HUMAN_BEING_ARGUMENT.add("add");
+        COMMANDS_WITH_HUMAN_BEING_ARGUMENT.add("add_if_min");
+        COMMANDS_WITH_NUMBER_ARGUMENT.add("filter_less_than_car");
+        COMMANDS_WITH_NUMBER_ARGUMENT.add("remove_by_id");
+        COMMANDS_WITH_MOOD_ARGUMENT.add("remove_by_any_mood");
+        COMMANDS_WITH_HUMAN_BEING_AND_NUMBER_ARGUMENTS.add("update");
+        SCRIPT_ARGUMENT_COMMANDS.add("execute_script");
+    }
+
+    private AvailableCommands() {
+
+    }
 }

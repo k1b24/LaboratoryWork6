@@ -1,9 +1,5 @@
 package kib.lab6.common.util;
 
-import kib.lab6.common.util.ConnectionConfig;
-import kib.lab6.common.util.Request;
-import kib.lab6.common.util.Response;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,7 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 
-public class Serializer {
+public final class Serializer {
+
+    private Serializer() {
+
+    }
 
     public static ByteBuffer serializeResponse(Response response) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream(ConnectionConfig.getByteBufferSize());

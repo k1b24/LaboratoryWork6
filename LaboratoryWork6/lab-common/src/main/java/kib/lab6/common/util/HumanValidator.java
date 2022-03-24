@@ -2,7 +2,6 @@ package kib.lab6.common.util;
 
 
 import kib.lab6.common.entities.HumanBeing;
-import kib.lab6.common.util.TextSender;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

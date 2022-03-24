@@ -5,10 +5,8 @@ import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.entities.enums.Mood;
 import kib.lab6.common.entities.enums.WeaponType;
 import kib.lab6.common.util.ErrorMessage;
-import kib.lab6.common.util.HumanValidator;
 import kib.lab6.common.util.StringToTypeConverter;
 import kib.lab6.common.util.SuccessMessage;
-import kib.lab6.common.util.TextSender;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -22,7 +20,7 @@ public class HumanInfoInput {
     private static final int REAL_HERO_ELEMENT_NUMBER = 1;
     private static final int HAS_TOOTHPICK_ELEMENT_NUMBER = 2;
     private static final int IMPACT_SPEED_ELEMENT_NUMBER = 3;
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
     private final HumanBeing newHumanToInput;
     private final String name;
     private final String realHero;
@@ -64,7 +62,7 @@ public class HumanInfoInput {
 
     private void inputX() throws NumberFormatException {
         Config.getTextSender().printMessage(new SuccessMessage("Введите X(целое число): "));
-        String userInput = scanner.nextLine();
+        String userInput = SCANNER.nextLine();
         try {
             newHumanToInput.getCoordinates().setX((Long) StringToTypeConverter.toObject(Long.class, userInput));
             boolean validationResult = Config.getHumanValidator().validateField(newHumanToInput.getCoordinates(), "x");
@@ -79,7 +77,7 @@ public class HumanInfoInput {
 
     private void inputY() throws NumberFormatException {
         Config.getTextSender().printMessage(new SuccessMessage("Введите Y(число с плавающей точкой): "));
-        String userInput = scanner.nextLine();
+        String userInput = SCANNER.nextLine();
         try {
             Float y = (Float) StringToTypeConverter.toObject(Float.class, userInput);
             if (y.equals(Float.NEGATIVE_INFINITY) || y.equals(Float.POSITIVE_INFINITY)) {
@@ -136,7 +134,7 @@ public class HumanInfoInput {
         Config.getTextSender().printMessage(new SuccessMessage("Введите тип оружия из предложенных вариантов"
                 + " или оставьте пустую строку, если оружия нет: "));
         Config.getTextSender().printMessage(new SuccessMessage(Arrays.toString(WeaponType.values())));
-        String userInput = scanner.nextLine();
+        String userInput = SCANNER.nextLine();
         if ("".equals(userInput)) {
             newHumanToInput.setWeaponType(null);
         } else {
@@ -153,7 +151,7 @@ public class HumanInfoInput {
     private void inputMood() {
         Config.getTextSender().printMessage(new SuccessMessage("Введите настроение из предложенных вариантов или оставьте пустую строку, если человек дед инсайд: "));
         Config.getTextSender().printMessage(new SuccessMessage(Arrays.toString(Mood.values())));
-        String userInput = scanner.nextLine();
+        String userInput = SCANNER.nextLine();
         if ("".equals(userInput)) {
             newHumanToInput.setMood(null);
         } else {
@@ -168,7 +166,7 @@ public class HumanInfoInput {
 
     private void inputCarSpeed() {
         Config.getTextSender().printMessage(new SuccessMessage("Введите скорость машины: "));
-        String userInput = scanner.nextLine();
+        String userInput = SCANNER.nextLine();
         try {
             newHumanToInput.getCar().setCarSpeed((Integer) StringToTypeConverter.toObject(Integer.class, userInput));
         } catch (NumberFormatException e) {
@@ -179,7 +177,7 @@ public class HumanInfoInput {
 
     private void inputCarCoolness() {
         Config.getTextSender().printMessage(new SuccessMessage("Машина крутая?[y/n]: "));
-        String userInput = scanner.nextLine().toLowerCase();
+        String userInput = SCANNER.nextLine().toLowerCase();
         if ("y".equals(userInput)) {
             userInput = "true";
         } else if ("n".equals(userInput)) {
@@ -193,7 +191,7 @@ public class HumanInfoInput {
 
     private void inputCar() {
         Config.getTextSender().printMessage(new SuccessMessage("Есть ли у человека машина?[y/n]"));
-        String userAnswer = scanner.nextLine();
+        String userAnswer = SCANNER.nextLine();
         if ("y".equals(userAnswer)) {
             inputCarCoolness();
             inputCarSpeed();

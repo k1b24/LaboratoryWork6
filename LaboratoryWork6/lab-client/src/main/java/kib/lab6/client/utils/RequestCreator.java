@@ -14,51 +14,69 @@ import java.util.Arrays;
 public class RequestCreator {
 
     public Request createRequestFromInputedCommand(InputedCommand inputedCommand) {
-        if (AvailableCommands.commandsWithoutArguments.contains(inputedCommand.getName().toLowerCase())) {
+        Request request;
+        if (AvailableCommands.COMMANDS_WITHOUT_ARGUMENTS.contains(inputedCommand.getName().toLowerCase())) {
             //Обработка команды без аргументов
-            return new Request(inputedCommand.getName());
-        } else if (AvailableCommands.commandsWithNumberArgument.contains(inputedCommand.getName().toLowerCase())) {
+            request = new Request(inputedCommand.getName());
+        } else if (AvailableCommands.COMMANDS_WITH_NUMBER_ARGUMENT.contains(inputedCommand.getName().toLowerCase())) {
             //Обработка команды с числовым аргументом
-            try {
-                return new Request(inputedCommand.getName(), (int) StringToTypeConverter.toObject(Integer.class, inputedCommand.getArguments()[0]));
-            } catch (IllegalArgumentException e) {
-                Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
-                return null;
-            }
-        } else if (AvailableCommands.commandsWithMoodArgument.contains(inputedCommand.getName().toLowerCase())) {
+            request = createNumberRequest(inputedCommand);
+        } else if (AvailableCommands.COMMANDS_WITH_MOOD_ARGUMENT.contains(inputedCommand.getName().toLowerCase())) {
             //Обработка команды с аргументом "настроение"
-            Request request;
-            if ("".equals(inputedCommand.getArguments()[0])) {
-                request = new Request(inputedCommand.getName(), (Mood) null);
-            } else {
-                try {
-                    request = new Request(inputedCommand.getName(), Mood.valueOf(inputedCommand.getArguments()[0]));
-                } catch (IllegalArgumentException e) {
-                    Config.getTextSender().printMessage(new ErrorMessage("Такого настроения не существует,"
-                            + " введите одно из: " + Arrays.toString(Mood.values())));
-                }
-            }
-        } else if (AvailableCommands.commandsWithHumanBeingArgument.contains(inputedCommand.getName().toLowerCase())) {
+            request = createMoodRequest(inputedCommand);
+        } else if (AvailableCommands.COMMANDS_WITH_HUMAN_BEING_ARGUMENT.contains(inputedCommand.getName().toLowerCase())) {
             //Обработка команды с аргументом "HumanBeing"
-            HumanInfoInput humanInfoInput = new HumanInfoInput(inputedCommand.getArguments());
+            request = createHumanBeingRequest(inputedCommand);
+        } else if (AvailableCommands.COMMANDS_WITH_HUMAN_BEING_AND_NUMBER_ARGUMENTS.contains(inputedCommand.getName().toLowerCase())) {
+            //Обработка команды с аргументами "число" и "человек"
+            request = createHumanBeingAndNumberRequest(inputedCommand);
+        } else {
+            request = null;
+        }
+        return request;
+    }
+
+    private Request createHumanBeingAndNumberRequest(InputedCommand inputedCommand) {
+        try {
+            int num = (int) StringToTypeConverter.toObject(Integer.class, inputedCommand.getArguments()[0]);
+            String[] argumentsForHuman = Arrays.copyOfRange(inputedCommand.getArguments(), 1, inputedCommand.getArguments().length);
+            HumanInfoInput humanInfoInput = new HumanInfoInput(argumentsForHuman);
             humanInfoInput.inputHuman();
             HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
-            return new Request(inputedCommand.getName(), humanForRequest);
-        } else if (AvailableCommands.commandsWithHumanBeingAndNumberArguments.contains(inputedCommand.getName().toLowerCase())) {
-            //Обработка команды с аргументами "число" и "человек"
+            return new Request(inputedCommand.getName(), num, humanForRequest);
+        } catch (IllegalArgumentException e) {
+            Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
+            return null;
+        }
+    }
+
+    private Request createHumanBeingRequest(InputedCommand inputedCommand) {
+        HumanInfoInput humanInfoInput = new HumanInfoInput(inputedCommand.getArguments());
+        humanInfoInput.inputHuman();
+        HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
+        return new Request(inputedCommand.getName(), humanForRequest);
+    }
+
+    private Request createMoodRequest(InputedCommand inputedCommand) {
+        if ("".equals(inputedCommand.getArguments()[0])) {
+            return new Request(inputedCommand.getName(), (Mood) null);
+        } else {
             try {
-                int num = Integer.parseInt(inputedCommand.getArguments()[0]);
-                String[] argumentsForHuman = Arrays.copyOfRange(inputedCommand.getArguments(), 1, inputedCommand.getArguments().length);
-                HumanInfoInput humanInfoInput = new HumanInfoInput(argumentsForHuman);
-                humanInfoInput.inputHuman();
-                HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
-                return new Request(inputedCommand.getName(), num, humanForRequest);
+                return new Request(inputedCommand.getName(), Mood.valueOf(inputedCommand.getArguments()[0]));
             } catch (IllegalArgumentException e) {
-                Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
+                Config.getTextSender().printMessage(new ErrorMessage("Такого настроения не существует,"
+                        + " введите одно из: " + Arrays.toString(Mood.values())));
                 return null;
             }
         }
-        return null;
     }
 
+    private Request createNumberRequest(InputedCommand inputedCommand) {
+        try {
+            return new Request(inputedCommand.getName(), (int) StringToTypeConverter.toObject(Integer.class, inputedCommand.getArguments()[0]));
+        } catch (IllegalArgumentException e) {
+            Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
+            return null;
+        }
+    }
 }

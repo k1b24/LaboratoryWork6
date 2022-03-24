@@ -4,7 +4,6 @@ import kib.lab6.common.util.Request;
 import kib.lab6.common.util.SuccessMessage;
 import kib.lab6.server.Config;
 import kib.lab6.server.abstractions.AbstractCommand;
-import kib.lab6.common.util.SuccessMessage;
 
 public class Clear extends AbstractCommand {
 
