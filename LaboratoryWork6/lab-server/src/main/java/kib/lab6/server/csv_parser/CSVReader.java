@@ -72,7 +72,7 @@ public class CSVReader extends AbstractFileReader {
     }
 
     private HumanBeing createHuman(HashMap<String, String> humanInfo) {
-        HumanBeing newHuman = new HumanBeing(true);
+        HumanBeing newHuman = new HumanBeing();
         for (Map.Entry<String, String> element : humanInfo.entrySet()) {
             for (Field field : humanBeingFields) {
                 Class<?> cl = field.getType();

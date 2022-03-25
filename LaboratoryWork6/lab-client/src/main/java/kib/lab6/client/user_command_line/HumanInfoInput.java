@@ -35,20 +35,7 @@ public class HumanInfoInput {
         this.realHero = args[REAL_HERO_ELEMENT_NUMBER];
         this.hasToothpick = args[HAS_TOOTHPICK_ELEMENT_NUMBER];
         this.impactSpeed = args[IMPACT_SPEED_ELEMENT_NUMBER];
-        newHumanToInput = new HumanBeing(false);
-        setPrimitives();
-    }
-
-    /**
-     * Конструктор принимающий человека информацию о котором мы хотим изменить
-     * @param newHumanToInput человек информацию о котором мы хотим изменить
-     */
-    public HumanInfoInput(HumanBeing newHumanToInput, String[] args) {
-        this.name = args[NAME_ELEMENT_NUMBER];
-        this.realHero = args[REAL_HERO_ELEMENT_NUMBER];
-        this.hasToothpick = args[HAS_TOOTHPICK_ELEMENT_NUMBER];
-        this.impactSpeed = args[IMPACT_SPEED_ELEMENT_NUMBER];
-        this.newHumanToInput = newHumanToInput;
+        newHumanToInput = new HumanBeing();
         setPrimitives();
     }
 
@@ -97,7 +84,6 @@ public class HumanInfoInput {
     }
 
     private void inputRealHero() throws IllegalArgumentException {
-        boolean realHeroValue;
         if ("true".equals(this.realHero)) {
             newHumanToInput.setRealHero(true);
         } else if ("false".equals(this.realHero)) {
@@ -108,7 +94,6 @@ public class HumanInfoInput {
     }
 
     private void inputHasToothpick() throws IllegalArgumentException {
-        boolean hasToothpickValue;
         if ("true".equals(this.hasToothpick)) {
             newHumanToInput.setHasToothpick(true);
         } else if ("false".equals(this.hasToothpick)) {
@@ -159,7 +144,7 @@ public class HumanInfoInput {
                 newHumanToInput.setMood((Mood) StringToTypeConverter.toObject(Mood.class, userInput));
             } catch (IllegalArgumentException e) {
                 Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода типа настроения, повторите ввод"));
-                inputWeaponType();
+                inputMood();
             }
         }
     }
@@ -229,7 +214,6 @@ public class HumanInfoInput {
      * @return введенный пользователем человек
      */
     public HumanBeing getNewHumanToInput() {
-        newHumanToInput.setId();
         return newHumanToInput;
     }
 }

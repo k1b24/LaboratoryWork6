@@ -13,21 +13,24 @@ import java.util.Arrays;
 
 public class RequestCreator {
 
+    private static final int AMOUNT_OF_ARGS_FOR_HUMAN_BEING_REQUEST = 4;
+    private static final int AMOUNT_OF_ARGS_FOR_HUMAN_BEING_AND_NUMBER_REQUEST = 5;
+
     public Request createRequestFromInputedCommand(InputedCommand inputedCommand) {
         Request request;
-        if (AvailableCommands.COMMANDS_WITHOUT_ARGUMENTS.contains(inputedCommand.getName().toLowerCase())) {
+        if (AvailableCommands.COMMANDS_WITHOUT_ARGUMENTS.contains(inputedCommand.getName().toLowerCase()) && inputedCommand.getArguments().length == 0) {
             //Обработка команды без аргументов
             request = new Request(inputedCommand.getName());
-        } else if (AvailableCommands.COMMANDS_WITH_NUMBER_ARGUMENT.contains(inputedCommand.getName().toLowerCase())) {
+        } else if (AvailableCommands.COMMANDS_WITH_NUMBER_ARGUMENT.contains(inputedCommand.getName().toLowerCase()) && inputedCommand.getArguments().length == 1) {
             //Обработка команды с числовым аргументом
             request = createNumberRequest(inputedCommand);
-        } else if (AvailableCommands.COMMANDS_WITH_MOOD_ARGUMENT.contains(inputedCommand.getName().toLowerCase())) {
+        } else if (AvailableCommands.COMMANDS_WITH_MOOD_ARGUMENT.contains(inputedCommand.getName().toLowerCase()) && inputedCommand.getArguments().length == 1) {
             //Обработка команды с аргументом "настроение"
             request = createMoodRequest(inputedCommand);
-        } else if (AvailableCommands.COMMANDS_WITH_HUMAN_BEING_ARGUMENT.contains(inputedCommand.getName().toLowerCase())) {
+        } else if (AvailableCommands.COMMANDS_WITH_HUMAN_BEING_ARGUMENT.contains(inputedCommand.getName().toLowerCase()) && inputedCommand.getArguments().length == AMOUNT_OF_ARGS_FOR_HUMAN_BEING_REQUEST) {
             //Обработка команды с аргументом "HumanBeing"
             request = createHumanBeingRequest(inputedCommand);
-        } else if (AvailableCommands.COMMANDS_WITH_HUMAN_BEING_AND_NUMBER_ARGUMENTS.contains(inputedCommand.getName().toLowerCase())) {
+        } else if (AvailableCommands.COMMANDS_WITH_HUMAN_BEING_AND_NUMBER_ARGUMENTS.contains(inputedCommand.getName().toLowerCase()) && inputedCommand.getArguments().length == AMOUNT_OF_ARGS_FOR_HUMAN_BEING_AND_NUMBER_REQUEST) {
             //Обработка команды с аргументами "число" и "человек"
             request = createHumanBeingAndNumberRequest(inputedCommand);
         } else {
@@ -37,24 +40,35 @@ public class RequestCreator {
     }
 
     private Request createHumanBeingAndNumberRequest(InputedCommand inputedCommand) {
+        int num;
         try {
-            int num = (int) StringToTypeConverter.toObject(Integer.class, inputedCommand.getArguments()[0]);
+            num = (int) StringToTypeConverter.toObject(Integer.class, inputedCommand.getArguments()[0]);
+        } catch (IllegalArgumentException e) {
+            Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
+            return null;
+        }
+        try {
             String[] argumentsForHuman = Arrays.copyOfRange(inputedCommand.getArguments(), 1, inputedCommand.getArguments().length);
             HumanInfoInput humanInfoInput = new HumanInfoInput(argumentsForHuman);
             humanInfoInput.inputHuman();
             HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
             return new Request(inputedCommand.getName(), num, humanForRequest);
         } catch (IllegalArgumentException e) {
-            Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
+            Config.getTextSender().printMessage(new ErrorMessage(e.getMessage()));
             return null;
         }
     }
 
     private Request createHumanBeingRequest(InputedCommand inputedCommand) {
-        HumanInfoInput humanInfoInput = new HumanInfoInput(inputedCommand.getArguments());
-        humanInfoInput.inputHuman();
-        HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
-        return new Request(inputedCommand.getName(), humanForRequest);
+        try {
+            HumanInfoInput humanInfoInput = new HumanInfoInput(inputedCommand.getArguments());
+            humanInfoInput.inputHuman();
+            HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
+            return new Request(inputedCommand.getName(), humanForRequest);
+        } catch (IllegalArgumentException e) {
+            Config.getTextSender().printMessage(new ErrorMessage(e.getMessage()));
+            return null;
+        }
     }
 
     private Request createMoodRequest(InputedCommand inputedCommand) {

@@ -1,6 +1,5 @@
 package kib.lab6.server;
 
-import kib.lab6.common.entities.CollectionManager;
 import kib.lab6.common.util.HumanValidator;
 import kib.lab6.common.util.TextSender;
 

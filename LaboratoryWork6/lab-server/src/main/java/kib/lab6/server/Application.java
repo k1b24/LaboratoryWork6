@@ -31,7 +31,7 @@ public class Application {
     }
 
     private void launchMainLoop() {
-        while (true) {
+        while (true) { //TODO еблан не испльзуй вайл тру
             try {
                 Request requestFromClient = connectionHandlerServer.listen();
                 Response responseToClient = new Response((AbstractMessage) Config.getCommandManager().execute(requestFromClient));

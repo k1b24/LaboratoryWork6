@@ -1,5 +1,6 @@
-package kib.lab6.common.entities;
+package kib.lab6.server;
 
+import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.entities.enums.Mood;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  */
 public class CollectionManager {
 
+    private static int humanIdCounter = 1;
     private final PriorityQueue<HumanBeing> humanQueue = new PriorityQueue<>();
     private final LocalDate initializationDate;
 
@@ -39,6 +41,7 @@ public class CollectionManager {
      * @param human экзепмпляр HumanBeing
      */
     public void addHuman(HumanBeing human) {
+        human.setId(humanIdCounter++);
         humanQueue.add(human);
     }
 
@@ -85,13 +88,12 @@ public class CollectionManager {
      * @throws IllegalArgumentException
      */
     public void setHumanById(int id, HumanBeing humanToSet) throws IllegalArgumentException {
-        for (HumanBeing human : humanQueue) {
-            if (human.getId() == id) {
-                human = humanToSet;
-                return;
-            }
+        if (humanQueue.removeIf(human ->  human.getId() == id)) {
+            humanToSet.setId(id);
+            humanQueue.add(humanToSet);
+        } else {
+            throw new IllegalArgumentException("Человек с таким ID не найден");
         }
-        throw new IllegalArgumentException("Человек с таким ID не найден");
     }
 
     /**

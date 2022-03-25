@@ -5,6 +5,7 @@ import kib.lab6.common.InputedCommand;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -22,11 +23,15 @@ public class ClientCommandListener {
     }
 
     public InputedCommand readCommand() {
-        String line = scanner.nextLine();
-        String[] inputString = SmartSplitter.smartSplit(line).toArray(new String[0]);
-        String commandName = inputString[0].toLowerCase();
-        String[] commandArgs = Arrays.copyOfRange(inputString, 1, inputString.length);
-        return new InputedCommand(commandName, commandArgs);
+        try {
+            System.out.print("↪ ");
+            String line = scanner.nextLine();
+            String[] inputString = SmartSplitter.smartSplit(line).toArray(new String[0]);
+            String commandName = inputString[0].toLowerCase();
+            String[] commandArgs = Arrays.copyOfRange(inputString, 1, inputString.length);
+            return new InputedCommand(commandName, commandArgs);
+        } catch (NoSuchElementException e) {
+            return  null;
+        }
     }
-
 }

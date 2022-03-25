@@ -18,7 +18,6 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     //TODO Human being лежит в Common и статичные переменные для экземпляров имеют свои значения на клиенте и на
     // сервере если добавляю с клиента хумана ему дается 1, а не количество хуманов + 1
     private static final int MAX_IMPACT_SPEED_VALUE = 712;
-    private static long idCounter = 1;
     private long id;
     @Pattern(regexp = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")
     @NotNull
@@ -40,12 +39,8 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
 
     /**
      * Конструктор класса
-     * @param setIdAutomatically если true, то значение ID устанавливается автоматически в конструкторе
      */
-    public HumanBeing(boolean setIdAutomatically) {
-        if (setIdAutomatically) {
-            setId();
-        }
+    public HumanBeing() {
         creationDate = LocalDate.now();
     }
 
@@ -59,8 +54,8 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     /**
      * Метод, устанавливающий ID в зависимости от idCounter
      */
-    public void setId() {
-        this.id = idCounter++;
+    public void setId(int idToSet) {
+        this.id = idToSet;
     }
 
     /**

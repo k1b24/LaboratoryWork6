@@ -31,7 +31,6 @@ public final class AvailableCommands {
         COMMANDS_WITH_NUMBER_ARGUMENT.add("remove_by_id");
         COMMANDS_WITH_MOOD_ARGUMENT.add("remove_by_any_mood");
         COMMANDS_WITH_HUMAN_BEING_AND_NUMBER_ARGUMENTS.add("update");
-        SCRIPT_ARGUMENT_COMMANDS.add("execute_script");
     }
 
     private AvailableCommands() {

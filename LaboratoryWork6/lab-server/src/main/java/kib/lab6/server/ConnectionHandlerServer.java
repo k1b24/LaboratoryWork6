@@ -8,6 +8,7 @@ import kib.lab6.common.util.Serializer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
@@ -40,7 +41,7 @@ public class ConnectionHandlerServer {
             if (key.isReadable()) {
                 ByteBuffer packet = ByteBuffer.allocate(ConnectionConfig.getByteBufferSize());
                 socketAddress = datagramChannel.receive(packet);
-                packet.flip();
+                ((Buffer) packet).flip();
                 byte[] bytes = new byte[packet.remaining()];
                 packet.get(bytes);
                 Request request = Serializer.deserializeRequest(bytes);

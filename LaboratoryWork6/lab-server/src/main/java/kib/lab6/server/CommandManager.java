@@ -1,5 +1,6 @@
 package kib.lab6.server;
 
+import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
 import kib.lab6.server.abstractions.AbstractCommand;
 import kib.lab6.server.Commands.Add;
@@ -53,7 +54,11 @@ public class CommandManager {
         if (lastExecutedCommands.size() == AMOUNT_OF_COMMANDS_TO_SAVE) {
             lastExecutedCommands.pollLast();
         }
-        return commands.get(requestFromClient.getCommandNameToSend()).execute(requestFromClient);
+        try {
+            return commands.get(requestFromClient.getCommandNameToSend()).execute(requestFromClient);
+        } catch (IllegalArgumentException e) {
+            return new ErrorMessage(e.getMessage());
+        }
     }
 
     public ArrayDeque<AbstractCommand> getLastExecutedCommands() {
