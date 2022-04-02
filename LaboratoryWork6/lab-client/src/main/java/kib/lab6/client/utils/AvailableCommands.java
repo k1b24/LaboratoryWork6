@@ -15,8 +15,6 @@ public final class AvailableCommands {
 
     public static final Set<String> COMMANDS_WITH_HUMAN_BEING_AND_NUMBER_ARGUMENTS = new HashSet<>();
 
-    public static final Set<String> SCRIPT_ARGUMENT_COMMANDS = new HashSet<>();
-
     static {
         COMMANDS_WITHOUT_ARGUMENTS.add("clear");
         COMMANDS_WITHOUT_ARGUMENTS.add("head");

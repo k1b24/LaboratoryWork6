@@ -46,8 +46,10 @@ public class Application {
                         fileReader.parseFile();
                         ArrayList<InputedCommand> commandsFromFile = fileReader.getInfoFromFile();
                         for (InputedCommand command : commandsFromFile) {
-                            if (!"execute_script".equals(command.getName())) {
-                                sendRequestAndRecieveResponse(command);
+                            if (!"execute_script".equalsIgnoreCase(command.getName())) {
+                                if (sendRequest(userInputedCommand)) {
+                                    recieveResponse();
+                                }
                             } else {
                                 Config.getTextSender().printMessage(new ErrorMessage("Команда execute_script пропущена"));
                             }
@@ -59,7 +61,9 @@ public class Application {
                     Config.getTextSender().printMessage(new ErrorMessage(""));
                 }
             } else {
-                sendRequestAndRecieveResponse(userInputedCommand);
+                if (sendRequest(userInputedCommand)) {
+                    recieveResponse();
+                }
             }
         }
     }
@@ -81,27 +85,32 @@ public class Application {
         }
     }
 
-    private void sendRequestAndRecieveResponse(InputedCommand inputedCommand) {
+    private boolean sendRequest(InputedCommand inputedCommand) {
         Request request = requestCreator.createRequestFromInputedCommand(inputedCommand);
         if (request == null) {
             Config.getTextSender().printMessage(new ErrorMessage("Ошибка ввода команды, введите help для "
                     + "получения справки по командам"));
+            return false;
         } else {
             try {
                 connectionHandlerClient.sendRequest(request);
+                return true;
             } catch (IOException e) {
                 Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при сериализации "
                         + "запроса, повторите попытку"));
+                return false;
             }
+        }
+    }
 
-            try {
-                Response response = connectionHandlerClient.recieveResponse();
-                Config.getTextSender().printMessage(response.getMessage());
-            } catch (IOException e) {
-                Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при получении ответа от сервера, попробуйте позже"));
-            } catch (ClassNotFoundException e) {
-                Config.getTextSender().printMessage(new ErrorMessage("Сервер прислал пакет, который невозможно десериализовать"));
-            }
+    private void recieveResponse() {
+        try {
+            Response response = connectionHandlerClient.recieveResponse();
+            Config.getTextSender().printMessage(response.getMessage());
+        } catch (IOException e) {
+            Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при получении ответа от сервера, попробуйте позже"));
+        } catch (ClassNotFoundException e) {
+            Config.getTextSender().printMessage(new ErrorMessage("Сервер прислал пакет, который невозможно десериализовать"));
         }
     }
 }

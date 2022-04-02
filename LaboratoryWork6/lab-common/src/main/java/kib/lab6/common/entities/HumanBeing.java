@@ -47,7 +47,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     /**
      * @return ID человека
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

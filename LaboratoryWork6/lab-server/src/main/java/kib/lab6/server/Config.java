@@ -6,7 +6,7 @@ import kib.lab6.common.util.TextSender;
 public final class Config {
 
     private static final String SYS_ENVIRONMENT = "HUMAN_INFO";
-    private static final CollectionManager COLLECTION_MANAGER = new CollectionManager(SYS_ENVIRONMENT);
+    private static final CollectionManager COLLECTION_MANAGER = new CollectionManager();
     private static final CommandManager COMMAND_MANAGER = new CommandManager();
     private static final TextSender TEXT_SENDER = new TextSender(System.out);
     private static final HumanValidator HUMAN_VALIDATOR = new HumanValidator(getTextSender());
