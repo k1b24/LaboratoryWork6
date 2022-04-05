@@ -8,9 +8,10 @@ import java.io.Serializable;
 public class Request implements Serializable {
 
     private final String commandNameToSend;
-    private HumanBeing humanToSend;
-    private int numberArgumentToSend;
-    private Mood moodArgumentToSend;
+    private HumanBeing humanToSend = null;
+    private Integer numberArgumentToSend = null;
+    private Mood moodArgumentToSend = null;
+    private String clientInfo = null;
 
     public Request(String name) {
         this.commandNameToSend = name;
@@ -51,5 +52,21 @@ public class Request implements Serializable {
 
     public Mood getMoodArgumentToSend() {
         return moodArgumentToSend;
+    }
+
+    public String getClientInfo() {
+        return clientInfo;
+    }
+
+    public void setClientInfo(String clientInfo) {
+        this.clientInfo = clientInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "Имя команды: " + commandNameToSend
+                + (humanToSend == null ? "" : " / Информация о человеке: " + humanToSend.toString())
+                + (numberArgumentToSend == null ? "" : " / Числовой аргумент = " + numberArgumentToSend)
+                + (moodArgumentToSend == null ? "" : " / Настроение: " + moodArgumentToSend);
     }
 }

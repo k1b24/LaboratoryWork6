@@ -1,0 +1,5 @@
+2022/04/05 23:30 INFO Вызван метод: launchApplication
+2022/04/05 23:30 INFO HV000001: Hibernate Validator null
+2022/04/05 23:30 INFO Обращение к менеджеру коллекции: fillWithArray / Аргументы: [[1. dima, X: 12, Y: 12.0, CREATION DATE: 2022-02-21, REAL HERO: true, HAS TOOTHPICK: false, IMPACT SPEED: 123, WEAPON TYPE: AXE, MOOD: null, CAR INFO: CAR COOLNESS: false CAR SPEED: 12, 2. max, X: -10, Y: 87.65, CREATION DATE: 2022-02-22, REAL HERO: false, HAS TOOTHPICK: true, IMPACT SPEED: 150, WEAPON TYPE: MACHINE_GUN, MOOD: null, CAR INFO: no car]]
+2022/04/05 23:30 INFO Коллекция успешно заполнена из файла
+2022/04/05 23:30 INFO Вызван метод: launchMainLoop

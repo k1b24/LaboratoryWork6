@@ -34,32 +34,11 @@ public class Application {
             return;
         }
         while (listeningAndSendingModeOn) {
-            // Процесс отправки команды
             InputedCommand userInputedCommand = commandListener.readCommand();
             if (userInputedCommand == null || "exit".equalsIgnoreCase(userInputedCommand.getName())) {
                 listeningAndSendingModeOn = false;
             } else if ("execute_script".equalsIgnoreCase(userInputedCommand.getName())) {
-                if (userInputedCommand.getArguments().length == 1) {
-                    try {
-                        ExecutableFileReader fileReader = new ExecutableFileReader();
-                        fileReader.initializeFile(userInputedCommand.getArguments()[0]);
-                        fileReader.parseFile();
-                        ArrayList<InputedCommand> commandsFromFile = fileReader.getInfoFromFile();
-                        for (InputedCommand command : commandsFromFile) {
-                            if (!"execute_script".equalsIgnoreCase(command.getName())) {
-                                if (sendRequest(userInputedCommand)) {
-                                    recieveResponse();
-                                }
-                            } else {
-                                Config.getTextSender().printMessage(new ErrorMessage("Команда execute_script пропущена"));
-                            }
-                        }
-                    } catch (FileNotFoundException e) {
-                        Config.getTextSender().printMessage(new ErrorMessage("Файл " + userInputedCommand.getArguments()[0] + " не найден"));
-                    }
-                } else {
-                    Config.getTextSender().printMessage(new ErrorMessage(""));
-                }
+                executeScript(userInputedCommand.getArguments());
             } else {
                 if (sendRequest(userInputedCommand)) {
                     recieveResponse();
@@ -111,6 +90,30 @@ public class Application {
             Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при получении ответа от сервера, попробуйте позже"));
         } catch (ClassNotFoundException e) {
             Config.getTextSender().printMessage(new ErrorMessage("Сервер прислал пакет, который невозможно десериализовать"));
+        }
+    }
+
+    private void executeScript(String[] arguments) {
+        if (arguments.length == 1) {
+            try {
+                ExecutableFileReader fileReader = new ExecutableFileReader();
+                fileReader.initializeFile(arguments[0]);
+                fileReader.parseFile();
+                ArrayList<InputedCommand> commandsFromFile = fileReader.getInfoFromFile();
+                for (InputedCommand command : commandsFromFile) {
+                    if (!"execute_script".equalsIgnoreCase(command.getName())) {
+                        if (sendRequest(command)) {
+                            recieveResponse();
+                        }
+                    } else {
+                        Config.getTextSender().printMessage(new ErrorMessage("Команда execute_script пропущена"));
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                Config.getTextSender().printMessage(new ErrorMessage("Файл " + arguments[0] + " не найден"));
+            }
+        } else {
+            Config.getTextSender().printMessage(new ErrorMessage(""));
         }
     }
 }

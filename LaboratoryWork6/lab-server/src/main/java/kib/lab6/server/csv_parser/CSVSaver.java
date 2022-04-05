@@ -1,7 +1,7 @@
 package kib.lab6.server.csv_parser;
 
 import kib.lab6.common.util.ErrorMessage;
-import kib.lab6.server.Config;
+import kib.lab6.server.utils.Config;
 
 import java.io.BufferedWriter;
 import java.io.File;

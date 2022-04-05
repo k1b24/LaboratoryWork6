@@ -1,6 +1,6 @@
 package kib.lab6.server.Commands;
 
-import kib.lab6.server.Config;
+import kib.lab6.server.utils.Config;
 import kib.lab6.common.util.Request;
 import kib.lab6.server.abstractions.AbstractCommand;
 import kib.lab6.common.util.SuccessMessage;

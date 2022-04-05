@@ -18,7 +18,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     //TODO Human being лежит в Common и статичные переменные для экземпляров имеют свои значения на клиенте и на
     // сервере если добавляю с клиента хумана ему дается 1, а не количество хуманов + 1
     private static final int MAX_IMPACT_SPEED_VALUE = 712;
-    private long id;
+    private long id = -1;
     @Pattern(regexp = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")
     @NotNull
     @NotEmpty
@@ -207,7 +207,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
 
     @Override
     public String toString() {
-        return id + ". " + name + ", X: "
+        return (id == -1 ? "" : id) + ". " + name + ", X: "
                 + coordinates.getX() + ", Y: " + coordinates.getY()
                 + ", CREATION DATE: " + creationDate + ", REAL HERO: " + realHero
                 + ", HAS TOOTHPICK: " + hasToothpick + ", IMPACT SPEED: " + impactSpeed

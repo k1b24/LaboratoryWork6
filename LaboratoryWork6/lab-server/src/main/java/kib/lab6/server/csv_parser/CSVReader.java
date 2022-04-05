@@ -4,7 +4,7 @@ import kib.lab6.common.abstractions.AbstractFileReader;
 import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.StringToTypeConverter;
-import kib.lab6.server.Config;
+import kib.lab6.server.utils.Config;
 
 import java.io.File;
 import java.io.FileNotFoundException;

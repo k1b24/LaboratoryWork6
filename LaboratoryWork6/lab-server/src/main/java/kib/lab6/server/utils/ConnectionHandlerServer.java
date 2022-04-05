@@ -1,4 +1,4 @@
-package kib.lab6.server;
+package kib.lab6.server.utils;
 
 import kib.lab6.common.util.ConnectionConfig;
 import kib.lab6.common.util.Request;
@@ -18,8 +18,8 @@ import java.util.Set;
 
 public class ConnectionHandlerServer {
 
-    private Selector selector;
-    private DatagramChannel datagramChannel;
+    private final Selector selector;
+    private final DatagramChannel datagramChannel;
     private SocketAddress socketAddress;
 
     public ConnectionHandlerServer() throws IOException {
@@ -44,16 +44,15 @@ public class ConnectionHandlerServer {
                 ((Buffer) packet).flip();
                 byte[] bytes = new byte[packet.remaining()];
                 packet.get(bytes);
-                Request request = Serializer.deserializeRequest(bytes);
-                System.out.println(socketAddress);
-                return request;
+                return Serializer.deserializeRequest(bytes);
             }
         }
         return null;
     }
 
-    public void sendResponse(Response response) throws IOException {
+    public String sendResponse(Response response) throws IOException {
         ByteBuffer bufferToSend = Serializer.serializeResponse(response);
         datagramChannel.send(bufferToSend, socketAddress);
+        return socketAddress.toString();
     }
 }

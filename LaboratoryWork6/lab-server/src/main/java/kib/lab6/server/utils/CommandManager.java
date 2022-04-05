@@ -1,4 +1,4 @@
-package kib.lab6.server;
+package kib.lab6.server.utils;
 
 import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
@@ -49,7 +49,7 @@ public class CommandManager {
         commands.put("history", new History());
     }
 
-    public Object execute(Request requestFromClient) {
+    public Object executeCommandFromRequest(Request requestFromClient) {
         lastExecutedCommands.addFirst(commands.get(requestFromClient.getCommandNameToSend()));
         if (lastExecutedCommands.size() == AMOUNT_OF_COMMANDS_TO_SAVE) {
             lastExecutedCommands.pollLast();

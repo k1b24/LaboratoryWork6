@@ -1,4 +1,4 @@
-package kib.lab6.server;
+package kib.lab6.server.utils;
 
 import kib.lab6.common.util.HumanValidator;
 import kib.lab6.common.util.TextSender;

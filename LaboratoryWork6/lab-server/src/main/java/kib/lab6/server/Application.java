@@ -5,6 +5,8 @@ import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
 import kib.lab6.common.util.Response;
 import kib.lab6.server.csv_parser.CSVReader;
+import kib.lab6.server.utils.Config;
+import kib.lab6.server.utils.ConnectionHandlerServer;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class Application {
         while (true) { //TODO еблан не испльзуй вайл тру
             try {
                 Request requestFromClient = connectionHandlerServer.listen();
-                Response responseToClient = new Response((AbstractMessage) Config.getCommandManager().execute(requestFromClient));
+                Response responseToClient = new Response((AbstractMessage) Config.getCommandManager().executeCommandFromRequest(requestFromClient));
                 connectionHandlerServer.sendResponse(responseToClient);
             } catch (IOException e) {
                 Config.getTextSender().printMessage(new ErrorMessage("Не удалось получить пакет с клиента"));

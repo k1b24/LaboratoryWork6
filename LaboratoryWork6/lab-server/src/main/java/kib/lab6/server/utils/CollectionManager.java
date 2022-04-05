@@ -1,15 +1,12 @@
-package kib.lab6.server;
+package kib.lab6.server.utils;
 
 import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.entities.enums.Mood;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.PriorityQueue;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -59,8 +56,10 @@ public class CollectionManager {
     }
 
     public void fillWithArray(ArrayList<HumanBeing> arrayOfPeople) {
-        humanQueue.parallelStream()
-                .collect(Collectors.toCollection(() -> arrayOfPeople));
+        arrayOfPeople.forEach(human -> {
+            human.setId(humanIdCounter++);
+            humanQueue.add(human);
+        });
     }
 
     public HumanBeing returnHead() {

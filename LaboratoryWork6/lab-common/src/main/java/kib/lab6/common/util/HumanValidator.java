@@ -8,12 +8,19 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
+import java.util.logging.Level;
 
 public final class HumanValidator {
+
+    static {
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+    }
 
     private static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
     private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
     private final TextSender textSender;
+
+
 
     public HumanValidator(TextSender textSender) {
         this.textSender = textSender;

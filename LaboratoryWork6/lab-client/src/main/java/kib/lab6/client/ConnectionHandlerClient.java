@@ -26,7 +26,7 @@ public class ConnectionHandlerClient {
     }
 
     public void sendRequest(Request request) throws IOException {
-
+        request.setClientInfo(InetAddress.getLocalHost().toString() + ":" + datagramSocket.getLocalPort());
         ByteBuffer byteBuffer = Serializer.serializeRequest(request);
         byte[] bufferToSend = byteBuffer.array();
         DatagramPacket datagramPacket = new DatagramPacket(bufferToSend, bufferToSend.length, serverAddress, SERVER_PORT);
