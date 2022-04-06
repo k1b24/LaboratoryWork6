@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -56,5 +57,10 @@ public class LoggingAspects {
     public void collectionManagerAnyMethodAdvise(JoinPoint joinPoint) {
         LOGGER.info("Обращение к менеджеру коллекции: " + ((MethodSignature) joinPoint.getSignature()).getName()
                 + " / Аргументы: " + Arrays.toString(joinPoint.getArgs()));
+    }
+
+    @AfterThrowing(pointcut = "execution(* *(..))", throwing = "ex")
+    public void afterAnyThrowingAdvise(Throwable ex) {
+        System.out.println("HUY");
     }
 }

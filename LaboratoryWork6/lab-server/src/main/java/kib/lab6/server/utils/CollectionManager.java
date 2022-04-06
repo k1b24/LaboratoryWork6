@@ -22,7 +22,7 @@ public class CollectionManager {
         initializationDate = LocalDate.now();
     }
 
-    private ArrayList<HumanBeing> getSortedArrayListFromQueue() {
+    public ArrayList<HumanBeing> getSortedArrayListFromQueue() {
         return (ArrayList<HumanBeing>) humanQueue.stream().sorted().collect(Collectors.toList());
     }
 

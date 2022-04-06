@@ -2,6 +2,7 @@ package kib.lab6.server.utils;
 
 import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.server.abstractions.AbstractCommand;
 import kib.lab6.server.Commands.Add;
 import kib.lab6.server.Commands.AddIfMin;
@@ -57,7 +58,7 @@ public class CommandManager {
         try {
             return commands.get(requestFromClient.getCommandNameToSend()).execute(requestFromClient);
         } catch (IllegalArgumentException e) {
-            return new ErrorMessage(e.getMessage());
+            return new Response(new ErrorMessage(e.getMessage()));
         }
     }
 

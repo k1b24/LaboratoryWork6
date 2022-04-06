@@ -1,6 +1,7 @@
 package kib.lab6.server.Commands;
 
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.common.util.SuccessMessage;
 import kib.lab6.server.utils.Config;
 import kib.lab6.server.abstractions.AbstractCommand;
@@ -16,6 +17,6 @@ public class Update extends AbstractCommand {
     public Object execute(Request request) {
         int id = request.getNumberArgumentToSend();
         Config.getCollectionManager().setHumanById(id, request.getHumanToSend());
-        return new SuccessMessage("Объект успешно добавлен в коллекцию");
+        return new Response(new SuccessMessage("Объект успешно добавлен в коллекцию"));
     }
 }

@@ -3,6 +3,7 @@ package kib.lab6.server.Commands;
 
 import kib.lab6.common.entities.enums.Mood;
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.common.util.SuccessMessage;
 import kib.lab6.server.utils.Config;
 import kib.lab6.server.abstractions.AbstractCommand;
@@ -19,6 +20,7 @@ public class RemoveByAnyMood extends AbstractCommand {
     @Override
     public Object execute(Request request) {
         Config.getCollectionManager().removeHumanByAnyMood(request.getMoodArgumentToSend());
-        return new SuccessMessage("Случайный человек с настроением " + request.getMoodArgumentToSend() + " удален");
+        return new Response(new SuccessMessage("Случайный человек с настроением "
+                + request.getMoodArgumentToSend() + " удален"));
     }
 }

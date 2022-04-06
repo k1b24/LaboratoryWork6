@@ -1,13 +1,10 @@
 package kib.lab6.server.Commands;
 
-import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.common.util.SuccessMessage;
 import kib.lab6.server.utils.Config;
 import kib.lab6.server.abstractions.AbstractCommand;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class PrintDescending extends AbstractCommand {
 
@@ -18,9 +15,7 @@ public class PrintDescending extends AbstractCommand {
 
     @Override
     public Object execute(Request request) {
-        List<HumanBeing> listToReturn = Config.getCollectionManager().returnDescending();
-        return new SuccessMessage(listToReturn.stream()
-                .map(HumanBeing::toString)
-                .collect(Collectors.joining("\n")));
+        return new Response(new SuccessMessage("Коллекция в порядке убывания: "),
+                Config.getCollectionManager().returnDescending());
     }
 }

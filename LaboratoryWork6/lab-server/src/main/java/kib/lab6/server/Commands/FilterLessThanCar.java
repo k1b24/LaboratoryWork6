@@ -1,13 +1,10 @@
 package kib.lab6.server.Commands;
 
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.server.utils.Config;
 import kib.lab6.server.abstractions.AbstractCommand;
-import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.util.SuccessMessage;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class FilterLessThanCar extends AbstractCommand {
 
@@ -19,9 +16,7 @@ public class FilterLessThanCar extends AbstractCommand {
     @Override
     public Object execute(Request request) {
         int speedFilter = request.getNumberArgumentToSend();
-        ArrayList<HumanBeing> listToReturn = Config.getCollectionManager().filterByCarSpeed(speedFilter);
-        return new SuccessMessage(listToReturn.stream()
-                .map(HumanBeing::toString)
-                .collect(Collectors.joining("\n")));
+        return new Response(new SuccessMessage("Элементы коллекции, значение скорости которых меньше " + speedFilter + ":"),
+                Config.getCollectionManager().filterByCarSpeed(speedFilter));
     }
 }

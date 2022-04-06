@@ -1,5 +1,6 @@
 package kib.lab6.server.Commands;
 
+import kib.lab6.common.util.Response;
 import kib.lab6.server.utils.Config;
 import kib.lab6.common.util.Request;
 import kib.lab6.server.abstractions.AbstractCommand;
@@ -15,6 +16,6 @@ public class Add extends AbstractCommand {
     @Override
     public Object execute(Request request) {
         Config.getCollectionManager().addHuman(request.getHumanToSend());
-        return new SuccessMessage("Объект успешно добавлен в коллекцию");
+        return new Response(new SuccessMessage("Объект успешно добавлен в коллекцию"));
     }
 }

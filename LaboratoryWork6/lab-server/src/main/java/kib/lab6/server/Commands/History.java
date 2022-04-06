@@ -1,6 +1,7 @@
 package kib.lab6.server.Commands;
 
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.common.util.SuccessMessage;
 import kib.lab6.server.utils.Config;
 import kib.lab6.server.abstractions.AbstractCommand;
@@ -18,8 +19,8 @@ public class History extends AbstractCommand {
     @Override
     public Object execute(Request request) {
         ArrayDeque<AbstractCommand> listToReturn = Config.getCommandManager().getLastExecutedCommands();
-        return new SuccessMessage(listToReturn.stream()
+        return new Response(new SuccessMessage(listToReturn.stream()
                 .map(AbstractCommand::getName)
-                .collect(Collectors.joining("\n")));
+                .collect(Collectors.joining("\n"))));
     }
 }

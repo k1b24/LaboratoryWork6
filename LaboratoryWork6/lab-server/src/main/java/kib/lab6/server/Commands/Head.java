@@ -1,11 +1,14 @@
 package kib.lab6.server.Commands;
 
 import kib.lab6.common.util.Request;
+import kib.lab6.common.util.Response;
 import kib.lab6.server.utils.Config;
 import kib.lab6.server.abstractions.AbstractCommand;
 import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.SuccessMessage;
+
+import java.util.ArrayList;
 
 public class Head extends AbstractCommand {
 
@@ -16,10 +19,12 @@ public class Head extends AbstractCommand {
     @Override
     public Object execute(Request request) {
         HumanBeing head = Config.getCollectionManager().returnHead();
+        ArrayList<HumanBeing> listToReturn = new ArrayList<>();
+        listToReturn.add(head);
         if (head != null) {
-            return new SuccessMessage(head.toString());
+            return new Response(new SuccessMessage("Первый элемент коллекции: "), listToReturn);
         } else {
-            return new ErrorMessage("Коллекция пустая :(");
+            return new Response(new ErrorMessage("Коллекция пустая :("));
         }
     }
 }

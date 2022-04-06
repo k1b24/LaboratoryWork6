@@ -4,6 +4,7 @@ import kib.lab6.client.user_command_line.ClientCommandListener;
 import kib.lab6.client.utils.ExecutableFileReader;
 import kib.lab6.client.utils.RequestCreator;
 import kib.lab6.common.InputedCommand;
+import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
 import kib.lab6.common.util.Response;
@@ -16,6 +17,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Application {
 
@@ -86,6 +88,12 @@ public class Application {
         try {
             Response response = connectionHandlerClient.recieveResponse();
             Config.getTextSender().printMessage(response.getMessage());
+            if (response.getPeople() != null) {
+                Config.getTextSender().printMessage(
+                        new SuccessMessage(response.getPeople().stream()
+                        .map(HumanBeing::toString)
+                        .collect(Collectors.joining("\n"))));
+            }
         } catch (IOException e) {
             Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при получении ответа от сервера, попробуйте позже"));
         } catch (ClassNotFoundException e) {

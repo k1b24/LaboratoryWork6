@@ -1,6 +1,5 @@
 package kib.lab6.server;
 
-import kib.lab6.common.abstractions.AbstractMessage;
 import kib.lab6.common.util.ErrorMessage;
 import kib.lab6.common.util.Request;
 import kib.lab6.common.util.Response;
@@ -36,7 +35,7 @@ public class Application {
         while (true) { //TODO еблан не испльзуй вайл тру
             try {
                 Request requestFromClient = connectionHandlerServer.listen();
-                Response responseToClient = new Response((AbstractMessage) Config.getCommandManager().executeCommandFromRequest(requestFromClient));
+                Response responseToClient = (Response) Config.getCommandManager().executeCommandFromRequest(requestFromClient);
                 connectionHandlerServer.sendResponse(responseToClient);
             } catch (IOException e) {
                 Config.getTextSender().printMessage(new ErrorMessage("Не удалось получить пакет с клиента"));
