@@ -1,7 +1,7 @@
 package kib.lab6.server.abstractions;
 
 
-import kib.lab6.common.util.Request;
+import kib.lab6.common.util.client_server_communication.Request;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,12 @@
-package kib.lab6.client.utils;
+ package kib.lab6.common.util.client_server_communication;
 
-import kib.lab6.client.Config;
-import kib.lab6.client.user_command_line.HumanInfoInput;
-import kib.lab6.common.InputedCommand;
 import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.entities.enums.Mood;
-import kib.lab6.common.util.ErrorMessage;
-import kib.lab6.common.util.Request;
 import kib.lab6.common.util.StringToTypeConverter;
+import kib.lab6.common.util.console_workers.ErrorMessage;
+import kib.lab6.common.util.console_workers.HumanInfoInput;
+import kib.lab6.common.util.console_workers.InputedCommand;
+import kib.lab6.common.util.console_workers.TextSender;
 
 import java.util.Arrays;
 
@@ -15,6 +14,11 @@ public class RequestCreator {
 
     private static final int AMOUNT_OF_ARGS_FOR_HUMAN_BEING_REQUEST = 4;
     private static final int AMOUNT_OF_ARGS_FOR_HUMAN_BEING_AND_NUMBER_REQUEST = 5;
+    private final TextSender textSender;
+
+    public RequestCreator(TextSender textSender) {
+        this.textSender = textSender;
+    }
 
     public Request createRequestFromInputedCommand(InputedCommand inputedCommand) {
         Request request;
@@ -44,29 +48,29 @@ public class RequestCreator {
         try {
             num = (int) StringToTypeConverter.toObject(Integer.class, inputedCommand.getArguments()[0]);
         } catch (IllegalArgumentException e) {
-            Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
+            textSender.printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
             return null;
         }
         try {
             String[] argumentsForHuman = Arrays.copyOfRange(inputedCommand.getArguments(), 1, inputedCommand.getArguments().length);
-            HumanInfoInput humanInfoInput = new HumanInfoInput(argumentsForHuman);
+            HumanInfoInput humanInfoInput = new HumanInfoInput(argumentsForHuman, textSender);
             humanInfoInput.inputHuman();
             HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
             return new Request(inputedCommand.getName(), num, humanForRequest);
         } catch (IllegalArgumentException e) {
-            Config.getTextSender().printMessage(new ErrorMessage(e.getMessage()));
+            textSender.printMessage(new ErrorMessage(e.getMessage()));
             return null;
         }
     }
 
     private Request createHumanBeingRequest(InputedCommand inputedCommand) {
         try {
-            HumanInfoInput humanInfoInput = new HumanInfoInput(inputedCommand.getArguments());
+            HumanInfoInput humanInfoInput = new HumanInfoInput(inputedCommand.getArguments(), textSender);
             humanInfoInput.inputHuman();
             HumanBeing humanForRequest = humanInfoInput.getNewHumanToInput();
             return new Request(inputedCommand.getName(), humanForRequest);
         } catch (IllegalArgumentException e) {
-            Config.getTextSender().printMessage(new ErrorMessage(e.getMessage()));
+            textSender.printMessage(new ErrorMessage(e.getMessage()));
             return null;
         }
     }
@@ -78,7 +82,7 @@ public class RequestCreator {
             try {
                 return new Request(inputedCommand.getName(), Mood.valueOf(inputedCommand.getArguments()[0]));
             } catch (IllegalArgumentException e) {
-                Config.getTextSender().printMessage(new ErrorMessage("Такого настроения не существует,"
+                textSender.printMessage(new ErrorMessage("Такого настроения не существует,"
                         + " введите одно из: " + Arrays.toString(Mood.values())));
                 return null;
             }
@@ -89,7 +93,7 @@ public class RequestCreator {
         try {
             return new Request(inputedCommand.getName(), (int) StringToTypeConverter.toObject(Integer.class, inputedCommand.getArguments()[0]));
         } catch (IllegalArgumentException e) {
-            Config.getTextSender().printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
+            textSender.printMessage(new ErrorMessage("Введен неправильный числовой аргумент"));
             return null;
         }
     }

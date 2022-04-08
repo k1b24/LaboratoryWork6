@@ -1,6 +1,6 @@
 package kib.lab6.server.utils;
 
-import kib.lab6.common.util.Request;
+import kib.lab6.common.util.client_server_communication.Request;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -33,14 +33,14 @@ public class LoggingAspects {
 
     }
 
-    @AfterReturning(pointcut = "execution(kib.lab6.common.util.Request listen())", returning = "result")
+    @AfterReturning(pointcut = "execution(kib.lab6.common.util.client_server_communication.Request listen())", returning = "result")
     public void requestListeningAdvise(Object result) {
         if (result != null) {
             LOGGER.info("Получен запрос от " + ((Request) result).getClientInfo() + " --> " + ((Request) result).toString());
         }
     }
 
-    @AfterReturning(pointcut = "execution(Object executeCommandFromRequest(kib.lab6.common.util.Request))", returning = "result")
+    @AfterReturning(pointcut = "execution(Object executeCommandFromRequest(kib.lab6.common.util.client_server_communication.Request))", returning = "result")
     public void commandExecutionAdvise(JoinPoint joinPoint, Object result) {
         if (result != null) {
             LOGGER.info("Исполнена команда: "
@@ -48,7 +48,7 @@ public class LoggingAspects {
         }
     }
 
-    @AfterReturning(pointcut = "execution(String sendResponse(kib.lab6.common.util.Response))", returning = "result")
+    @AfterReturning(pointcut = "execution(String sendResponse(kib.lab6.common.util.client_server_communication.Response))", returning = "result")
     public void sendResponseAdvise(JoinPoint joinPoint, Object result) {
         LOGGER.info("Ответ отправлен клиенту " + (String) result);
     }
@@ -59,8 +59,10 @@ public class LoggingAspects {
                 + " / Аргументы: " + Arrays.toString(joinPoint.getArgs()));
     }
 
+    //Необходимо для логирования критических ошибок работы приложения
     @AfterThrowing(pointcut = "execution(* *(..))", throwing = "ex")
     public void afterAnyThrowingAdvise(Throwable ex) {
-        System.out.println("HUY");
+        LOGGER.error("Возникла критическая ошибка, сервер прекратил свою работу: \n"
+                + Arrays.toString(ex.getStackTrace()));
     }
 }

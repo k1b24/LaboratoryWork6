@@ -1,4 +1,4 @@
-package kib.lab6.client.utils;
+package kib.lab6.common.util.client_server_communication;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +17,7 @@ public final class AvailableCommands {
 
     static {
         COMMANDS_WITHOUT_ARGUMENTS.add("clear");
+        COMMANDS_WITHOUT_ARGUMENTS.add("save");
         COMMANDS_WITHOUT_ARGUMENTS.add("head");
         COMMANDS_WITHOUT_ARGUMENTS.add("info");
         COMMANDS_WITHOUT_ARGUMENTS.add("print_descending");

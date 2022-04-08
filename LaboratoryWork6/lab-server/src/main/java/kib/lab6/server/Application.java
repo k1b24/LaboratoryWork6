@@ -1,19 +1,21 @@
 package kib.lab6.server;
 
-import kib.lab6.common.util.ErrorMessage;
-import kib.lab6.common.util.Request;
-import kib.lab6.common.util.Response;
+import kib.lab6.common.util.console_workers.ErrorMessage;
+import kib.lab6.common.util.client_server_communication.Request;
+import kib.lab6.common.util.client_server_communication.Response;
 import kib.lab6.server.csv_parser.CSVReader;
 import kib.lab6.server.utils.Config;
 import kib.lab6.server.utils.ConnectionHandlerServer;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Application {
 
     private final CSVReader collectionFileReader;
     private ConnectionHandlerServer connectionHandlerServer;
+    private final ConsoleListenerThread consoleListenerThread = new ConsoleListenerThread();
 
     public Application() {
         collectionFileReader = new CSVReader();
@@ -24,22 +26,26 @@ public class Application {
         if (fillingResult) {
             try {
                 connectionHandlerServer = new ConnectionHandlerServer();
-                launchMainLoop();
             } catch (IOException e) {
                 Config.getTextSender().printMessage(new ErrorMessage("Не удалось открыть канал для прослушивания"));
+                return;
             }
+            consoleListenerThread.start();
+            launchMainLoop();
         }
     }
 
     private void launchMainLoop() {
-        while (true) { //TODO еблан не испльзуй вайл тру
+        Scanner s = new Scanner(System.in);
+        while (Config.isWorking()) {
             try {
                 Request requestFromClient = connectionHandlerServer.listen();
-                Response responseToClient = (Response) Config.getCommandManager().executeCommandFromRequest(requestFromClient);
-                connectionHandlerServer.sendResponse(responseToClient);
+                if (requestFromClient != null) {
+                    Response responseToClient = (Response) Config.getCommandManager().executeCommandFromRequest(requestFromClient);
+                    connectionHandlerServer.sendResponse(responseToClient);
+                }
             } catch (IOException e) {
                 Config.getTextSender().printMessage(new ErrorMessage("Не удалось получить пакет с клиента"));
-                e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 Config.getTextSender().printMessage(new ErrorMessage("Клиент прислал пакет, который невозможно десериализовать"));
             }

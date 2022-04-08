@@ -1,7 +1,4 @@
-package kib.lab6.client.user_command_line;
-
-import kib.lab6.common.util.SmartSplitter;
-import kib.lab6.common.InputedCommand;
+package kib.lab6.common.util.console_workers;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -11,14 +8,14 @@ import java.util.Scanner;
 /**
  * Класс отвечающий за работу с пользователем в интерактивном режиме
  */
-public class ClientCommandListener {
+public class CommandListener {
 
     private final Scanner scanner;
 
     /**
      * Конструктор
      */
-    public ClientCommandListener(InputStream inputStream) {
+    public CommandListener(InputStream inputStream) {
         this.scanner = new Scanner(inputStream);
     }
 
@@ -31,7 +28,7 @@ public class ClientCommandListener {
             String[] commandArgs = Arrays.copyOfRange(inputString, 1, inputString.length);
             return new InputedCommand(commandName, commandArgs);
         } catch (NoSuchElementException e) {
-            return  null;
+            return null;
         }
     }
 }

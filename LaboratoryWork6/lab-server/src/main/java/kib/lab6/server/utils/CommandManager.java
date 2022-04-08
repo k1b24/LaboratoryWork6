@@ -1,8 +1,9 @@
 package kib.lab6.server.utils;
 
-import kib.lab6.common.util.ErrorMessage;
-import kib.lab6.common.util.Request;
-import kib.lab6.common.util.Response;
+import kib.lab6.common.util.console_workers.ErrorMessage;
+import kib.lab6.common.util.client_server_communication.Request;
+import kib.lab6.common.util.client_server_communication.Response;
+import kib.lab6.server.Commands.Save;
 import kib.lab6.server.abstractions.AbstractCommand;
 import kib.lab6.server.Commands.Add;
 import kib.lab6.server.Commands.AddIfMin;
@@ -35,6 +36,7 @@ public class CommandManager {
 
     private void initMap() {
         commands.put("add", new Add());
+        commands.put("save", new Save());
         commands.put("add_if_min", new AddIfMin());
         commands.put("clear", new Clear());
         commands.put("filter_less_than_car", new FilterLessThanCar());
@@ -51,18 +53,39 @@ public class CommandManager {
     }
 
     public Object executeCommandFromRequest(Request requestFromClient) {
-        lastExecutedCommands.addFirst(commands.get(requestFromClient.getCommandNameToSend()));
-        if (lastExecutedCommands.size() == AMOUNT_OF_COMMANDS_TO_SAVE) {
-            lastExecutedCommands.pollLast();
+        Object response;
+        if (commands.containsKey(requestFromClient.getCommandNameToSend().toLowerCase())) {
+            if (!requestFromClient.isServerRequest() && !commands.get(requestFromClient.getCommandNameToSend().toLowerCase()).isOnlyServerCommand()) {
+                try {
+                    appendCommandToHistory(requestFromClient.getCommandNameToSend());
+                    response = commands.get(requestFromClient.getCommandNameToSend()).execute(requestFromClient);
+                } catch (IllegalArgumentException e) {
+                    response = new Response(new ErrorMessage(e.getMessage()));
+                }
+            } else if (requestFromClient.isServerRequest()) {
+                try {
+                    appendCommandToHistory(requestFromClient.getCommandNameToSend());
+                    response =  commands.get(requestFromClient.getCommandNameToSend()).execute(requestFromClient);
+                } catch (IllegalArgumentException e) {
+                    response =  new Response(new ErrorMessage(e.getMessage()));
+                }
+            } else {
+                response =  new Response(new ErrorMessage("Такая команда недоступна"));
+            }
+        } else {
+            response =  new Response(new ErrorMessage("Такая команда отсутствует"));
         }
-        try {
-            return commands.get(requestFromClient.getCommandNameToSend()).execute(requestFromClient);
-        } catch (IllegalArgumentException e) {
-            return new Response(new ErrorMessage(e.getMessage()));
-        }
+        return response;
     }
 
     public ArrayDeque<AbstractCommand> getLastExecutedCommands() {
         return lastExecutedCommands;
+    }
+
+    private void appendCommandToHistory(String name) {
+        lastExecutedCommands.addFirst(commands.get(name));
+        if (lastExecutedCommands.size() == AMOUNT_OF_COMMANDS_TO_SAVE) {
+            lastExecutedCommands.pollLast();
+        }
     }
 }

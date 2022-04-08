@@ -1,10 +1,11 @@
 package kib.lab6.server.utils;
 
-import kib.lab6.common.util.HumanValidator;
-import kib.lab6.common.util.TextSender;
+import kib.lab6.common.entities.HumanValidator;
+import kib.lab6.common.util.console_workers.TextSender;
 
 public final class Config {
 
+    private static boolean isWorking = true;
     private static final String SYS_ENVIRONMENT = "HUMAN_INFO";
     private static final CollectionManager COLLECTION_MANAGER = new CollectionManager();
     private static final CommandManager COMMAND_MANAGER = new CommandManager();
@@ -37,5 +38,13 @@ public final class Config {
 
     public static HumanValidator getHumanValidator() {
         return HUMAN_VALIDATOR;
+    }
+
+    public static boolean isWorking() {
+        return isWorking;
+    }
+
+    public static void setIsWorking(boolean isWorking) {
+        Config.isWorking = isWorking;
     }
 }

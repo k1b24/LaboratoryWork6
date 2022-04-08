@@ -1,4 +1,4 @@
-package kib.lab6.common.util;
+package kib.lab6.common.util.console_workers;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package kib.lab6.server.csv_parser;
 
 import kib.lab6.common.abstractions.AbstractFileReader;
 import kib.lab6.common.entities.HumanBeing;
-import kib.lab6.common.util.ErrorMessage;
+import kib.lab6.common.util.console_workers.ErrorMessage;
 import kib.lab6.common.util.StringToTypeConverter;
 import kib.lab6.server.utils.Config;
 

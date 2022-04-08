@@ -1,8 +1,8 @@
-package kib.lab6.client.utils;
+package kib.lab6.common.util;
 
-import kib.lab6.common.InputedCommand;
+import kib.lab6.common.util.console_workers.InputedCommand;
 import kib.lab6.common.abstractions.AbstractFileReader;
-import kib.lab6.common.util.SmartSplitter;
+import kib.lab6.common.util.console_workers.SmartSplitter;
 
 import java.io.File;
 import java.io.FileNotFoundException;

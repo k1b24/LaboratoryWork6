@@ -6,6 +6,7 @@ import kib.lab6.common.entities.enums.Mood;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,7 @@ public class CollectionManager {
 
     public void removeHumanById(int id) {
         humanQueue.removeIf(human -> human.getId() == id);
+        humanIdCounter--;
     }
 
     public void removeHumanByAnyMood(Mood mood) {
@@ -99,4 +101,17 @@ public class CollectionManager {
                 + initializationDate.toString() + " Количество элементов: " + humanQueue.size();
     }
 
+    public List<String> getArrayOfInfoForSavingToCSV() {
+        ArrayList<String> arrayOfInfo = new ArrayList<>();
+        for (HumanBeing human : humanQueue) {
+            String humanInfo = human.getName() + "," + human.getCoordinates().getX() + ","
+                    + human.getCoordinates().getY() + "," + human.getCreationDate().toString() + ","
+                    + human.isRealHero() + "," + human.isHasToothpick() + ","
+                    + (human.getImpactSpeed() == null ? "null," : human.getImpactSpeed() + ",")
+                    + (human.getWeaponType() == null ? "null," : human.getWeaponType() + ",")
+                    + (human.getMood() == null ? "null," : human.getMood() + ",")  + (human.getCar() == null ? "," : (human.getCar().getCarCoolness() == null ? "null," : human.getCar().getCarCoolness()) + "," + human.getCar().getCarSpeed());
+            arrayOfInfo.add(humanInfo);
+        }
+        return arrayOfInfo;
+    }
 }

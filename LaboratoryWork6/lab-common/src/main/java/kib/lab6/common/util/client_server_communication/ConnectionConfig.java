@@ -1,4 +1,4 @@
-package kib.lab6.common.util;
+package kib.lab6.common.util.client_server_communication;
 
 public final class ConnectionConfig {
 

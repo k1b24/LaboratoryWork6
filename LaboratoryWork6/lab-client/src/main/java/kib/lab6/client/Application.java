@@ -1,14 +1,14 @@
 package kib.lab6.client;
 
-import kib.lab6.client.user_command_line.ClientCommandListener;
-import kib.lab6.client.utils.ExecutableFileReader;
-import kib.lab6.client.utils.RequestCreator;
-import kib.lab6.common.InputedCommand;
+import kib.lab6.common.util.console_workers.CommandListener;
+import kib.lab6.common.util.ExecutableFileReader;
+import kib.lab6.common.util.client_server_communication.RequestCreator;
+import kib.lab6.common.util.console_workers.InputedCommand;
 import kib.lab6.common.entities.HumanBeing;
-import kib.lab6.common.util.ErrorMessage;
-import kib.lab6.common.util.Request;
-import kib.lab6.common.util.Response;
-import kib.lab6.common.util.SuccessMessage;
+import kib.lab6.common.util.console_workers.ErrorMessage;
+import kib.lab6.common.util.client_server_communication.Request;
+import kib.lab6.common.util.client_server_communication.Response;
+import kib.lab6.common.util.console_workers.SuccessMessage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,22 +24,28 @@ public class Application {
     private final Scanner scanner = new Scanner(System.in);
     private ConnectionHandlerClient connectionHandlerClient;
     private boolean listeningAndSendingModeOn = true;
-    private final ClientCommandListener commandListener = new ClientCommandListener(System.in);
-    private final RequestCreator requestCreator = new RequestCreator();
+    private final CommandListener commandListener = new CommandListener(System.in);
+    private final RequestCreator requestCreator = new RequestCreator(Config.getTextSender());
 
     public void launchApplication() {
         Config.getTextSender().printMessage(new SuccessMessage("Для начала работы с приложением вам потребуется ввести"
                 + " адрес сервера, после подключения вы сможете работать с коллекцией в интерактивном режиме, для справки"
                 + " по командам введите help"));
         inputInetAddress();
-        if (connectionHandlerClient == null) {
-            return;
+        if (!(connectionHandlerClient == null)) {
+            launchMainLoop();
         }
+    }
+
+    private void launchMainLoop() {
         while (listeningAndSendingModeOn) {
             InputedCommand userInputedCommand = commandListener.readCommand();
-            if (userInputedCommand == null || "exit".equalsIgnoreCase(userInputedCommand.getName())) {
+            if (userInputedCommand == null
+                    || ("exit".equalsIgnoreCase(userInputedCommand.getName())
+                            && userInputedCommand.getArguments().length == 1)) {
                 listeningAndSendingModeOn = false;
-            } else if ("execute_script".equalsIgnoreCase(userInputedCommand.getName())) {
+            } else if ("execute_script".equalsIgnoreCase(userInputedCommand.getName())
+                    && userInputedCommand.getArguments().length == 1) {
                 executeScript(userInputedCommand.getArguments());
             } else {
                 if (sendRequest(userInputedCommand)) {
@@ -91,8 +97,8 @@ public class Application {
             if (response.getPeople() != null) {
                 Config.getTextSender().printMessage(
                         new SuccessMessage(response.getPeople().stream()
-                        .map(HumanBeing::toString)
-                        .collect(Collectors.joining("\n"))));
+                                .map(HumanBeing::toString)
+                                .collect(Collectors.joining("\n"))));
             }
         } catch (IOException e) {
             Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при получении ответа от сервера, попробуйте позже"));
@@ -102,26 +108,22 @@ public class Application {
     }
 
     private void executeScript(String[] arguments) {
-        if (arguments.length == 1) {
-            try {
-                ExecutableFileReader fileReader = new ExecutableFileReader();
-                fileReader.initializeFile(arguments[0]);
-                fileReader.parseFile();
-                ArrayList<InputedCommand> commandsFromFile = fileReader.getInfoFromFile();
-                for (InputedCommand command : commandsFromFile) {
-                    if (!"execute_script".equalsIgnoreCase(command.getName())) {
-                        if (sendRequest(command)) {
-                            recieveResponse();
-                        }
-                    } else {
-                        Config.getTextSender().printMessage(new ErrorMessage("Команда execute_script пропущена"));
+        try {
+            ExecutableFileReader fileReader = new ExecutableFileReader();
+            fileReader.initializeFile(arguments[0]);
+            fileReader.parseFile();
+            ArrayList<InputedCommand> commandsFromFile = fileReader.getInfoFromFile();
+            for (InputedCommand command : commandsFromFile) {
+                if (!"execute_script".equalsIgnoreCase(command.getName())) {
+                    if (sendRequest(command)) {
+                        recieveResponse();
                     }
+                } else {
+                    Config.getTextSender().printMessage(new ErrorMessage("Команда execute_script пропущена"));
                 }
-            } catch (FileNotFoundException e) {
-                Config.getTextSender().printMessage(new ErrorMessage("Файл " + arguments[0] + " не найден"));
             }
-        } else {
-            Config.getTextSender().printMessage(new ErrorMessage(""));
+        } catch (FileNotFoundException e) {
+            Config.getTextSender().printMessage(new ErrorMessage("Файл " + arguments[0] + " не найден"));
         }
     }
 }

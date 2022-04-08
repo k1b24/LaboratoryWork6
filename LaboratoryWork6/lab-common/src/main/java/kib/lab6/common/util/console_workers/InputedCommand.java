@@ -1,4 +1,4 @@
-package kib.lab6.common;
+package kib.lab6.common.util.console_workers;
 
 public class InputedCommand {
 

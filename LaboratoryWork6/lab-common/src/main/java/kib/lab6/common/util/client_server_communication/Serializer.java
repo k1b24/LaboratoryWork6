@@ -1,4 +1,4 @@
-package kib.lab6.common.util;
+package kib.lab6.common.util.client_server_communication;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

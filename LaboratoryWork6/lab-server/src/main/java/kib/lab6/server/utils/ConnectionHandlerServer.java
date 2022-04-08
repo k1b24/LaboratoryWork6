@@ -1,9 +1,9 @@
 package kib.lab6.server.utils;
 
-import kib.lab6.common.util.ConnectionConfig;
-import kib.lab6.common.util.Request;
-import kib.lab6.common.util.Response;
-import kib.lab6.common.util.Serializer;
+import kib.lab6.common.util.client_server_communication.ConnectionConfig;
+import kib.lab6.common.util.client_server_communication.Request;
+import kib.lab6.common.util.client_server_communication.Response;
+import kib.lab6.common.util.client_server_communication.Serializer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -18,6 +18,7 @@ import java.util.Set;
 
 public class ConnectionHandlerServer {
 
+    private static final int SELECTION_TIME = 1;
     private final Selector selector;
     private final DatagramChannel datagramChannel;
     private SocketAddress socketAddress;
@@ -31,13 +32,14 @@ public class ConnectionHandlerServer {
     }
 
     public Request listen() throws ClassNotFoundException, IOException {
-        selector.select(); //убрал проверку на количество готовых каналов (видимо она не имеет смысла но не факт, надо тестить саму прогу)
+        if (selector.select(SELECTION_TIME) == 0) {
+            return null;
+        }
         Set<SelectionKey> readyKeys = selector.selectedKeys();
         Iterator<SelectionKey> iterator = readyKeys.iterator();
         while (iterator.hasNext()) {
             SelectionKey key = iterator.next();
             iterator.remove();
-
             if (key.isReadable()) {
                 ByteBuffer packet = ByteBuffer.allocate(ConnectionConfig.getByteBufferSize());
                 socketAddress = datagramChannel.receive(packet);

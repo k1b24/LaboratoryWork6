@@ -1,7 +1,7 @@
-package kib.lab6.common.util;
+package kib.lab6.common.entities;
 
-
-import kib.lab6.common.entities.HumanBeing;
+import kib.lab6.common.util.console_workers.ErrorMessage;
+import kib.lab6.common.util.console_workers.TextSender;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -19,8 +19,6 @@ public final class HumanValidator {
     private static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
     private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
     private final TextSender textSender;
-
-
 
     public HumanValidator(TextSender textSender) {
         this.textSender = textSender;

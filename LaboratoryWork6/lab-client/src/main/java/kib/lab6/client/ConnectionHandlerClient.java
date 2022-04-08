@@ -1,9 +1,9 @@
 package kib.lab6.client;
 
-import kib.lab6.common.util.ConnectionConfig;
-import kib.lab6.common.util.Request;
-import kib.lab6.common.util.Response;
-import kib.lab6.common.util.Serializer;
+import kib.lab6.common.util.client_server_communication.ConnectionConfig;
+import kib.lab6.common.util.client_server_communication.Request;
+import kib.lab6.common.util.client_server_communication.Response;
+import kib.lab6.common.util.client_server_communication.Serializer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

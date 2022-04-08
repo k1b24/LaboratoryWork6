@@ -1,4 +1,4 @@
-package kib.lab6.common.util;
+package kib.lab6.common.util.client_server_communication;
 
 import kib.lab6.common.entities.HumanBeing;
 import kib.lab6.common.entities.enums.Mood;
@@ -12,6 +12,7 @@ public class Request implements Serializable {
     private Integer numberArgumentToSend = null;
     private Mood moodArgumentToSend = null;
     private String clientInfo = null;
+    private boolean serverRequest = false;
 
     public Request(String name) {
         this.commandNameToSend = name;
@@ -68,5 +69,13 @@ public class Request implements Serializable {
                 + (humanToSend == null ? "" : " / Информация о человеке: " + humanToSend.toString())
                 + (numberArgumentToSend == null ? "" : " / Числовой аргумент = " + numberArgumentToSend)
                 + (moodArgumentToSend == null ? "" : " / Настроение: " + moodArgumentToSend);
+    }
+
+    public boolean isServerRequest() {
+        return serverRequest;
+    }
+
+    public void setServerRequest(boolean serverRequest) {
+        this.serverRequest = serverRequest;
     }
 }
