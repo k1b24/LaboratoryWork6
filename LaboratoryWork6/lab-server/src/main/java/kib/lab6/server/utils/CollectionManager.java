@@ -34,11 +34,10 @@ public class CollectionManager {
 
     public void removeHumanById(int id) {
         humanQueue.removeIf(human -> human.getId() == id);
-        humanIdCounter--;
     }
 
     public void removeHumanByAnyMood(Mood mood) {
-        humanQueue.removeIf(human -> human.getMood().equals(mood));
+        humanQueue.removeIf(human -> human.getMood() == mood);
     }
 
     public void setHumanById(int id, HumanBeing humanToSet) throws IllegalArgumentException {
@@ -74,12 +73,12 @@ public class CollectionManager {
         return descendingList;
     }
 
-    public int getLength() {
-        return humanQueue.size();
+    public ArrayList<Long> getIDs() {
+        return (ArrayList<Long>) humanQueue.stream().map(HumanBeing::getId).collect(Collectors.toList());
     }
 
     public ArrayList<HumanBeing> filterByCarSpeed(int speed) {
-        return (ArrayList<HumanBeing>) humanQueue.stream().filter(human -> human.getCar().getCarSpeed() < speed).collect(Collectors.toList());
+        return (ArrayList<HumanBeing>) humanQueue.stream().filter(human -> (human.getCar() != null && human.getCar().getCarSpeed() < speed)).collect(Collectors.toList());
     }
 
     public boolean addIfMin(HumanBeing newHuman) {

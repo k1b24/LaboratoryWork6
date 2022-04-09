@@ -1,7 +1,5 @@
-2022/04/08 13:29 INFO Вызван метод: launchApplication
-2022/04/08 13:29 INFO HV000001: Hibernate Validator 6.0.10.Final
-2022/04/08 13:29 INFO Обращение к менеджеру коллекции: fillWithArray / Аргументы: [[1. Valera, X: 21, Y: 12.0, CREATION DATE: 2022-04-07, REAL HERO: true, HAS TOOTHPICK: false, IMPACT SPEED: 228, WEAPON TYPE: null, MOOD: null, CAR INFO: no car, 2. max, X: -10, Y: 87.65, CREATION DATE: 2022-02-22, REAL HERO: false, HAS TOOTHPICK: true, IMPACT SPEED: 150, WEAPON TYPE: MACHINE_GUN, MOOD: null, CAR INFO: no car, 3. vityok, X: 3443, Y: 4334.0, CREATION DATE: 2022-04-07, REAL HERO: true, HAS TOOTHPICK: false, IMPACT SPEED: 12, WEAPON TYPE: AXE, MOOD: CALM, CAR INFO: CAR COOLNESS: false CAR SPEED: 12, 4. rama, X: 1, Y: 1.0, CREATION DATE: 2022-04-07, REAL HERO: true, HAS TOOTHPICK: false, IMPACT SPEED: 21, WEAPON TYPE: null, MOOD: null, CAR INFO: no car]]
-2022/04/08 13:29 INFO Коллекция успешно заполнена из файла
-2022/04/08 13:29 INFO Вызван метод: launchMainLoop
-2022/04/08 13:29 INFO Обращение к менеджеру коллекции: getSortedArrayListFromQueue / Аргументы: []
-2022/04/08 13:29 INFO Исполнена команда: show
+2022/04/09 14:16 INFO Вызван метод: launchApplication
+2022/04/09 14:16 INFO HV000001: Hibernate Validator 6.0.10.Final
+2022/04/09 14:16 INFO Обращение к менеджеру коллекции: fillWithArray / Аргументы: [[1. AMIR, X: 123, Y: 321.0, CREATION DATE: 2022-04-09, REAL HERO: true, HAS TOOTHPICK: true, IMPACT SPEED: 123, WEAPON TYPE: null, MOOD: null, CAR INFO: no car, 2. Valera, X: 21, Y: 12.0, CREATION DATE: 2022-04-07, REAL HERO: true, HAS TOOTHPICK: false, IMPACT SPEED: 228, WEAPON TYPE: null, MOOD: null, CAR INFO: no car, 3. rama, X: 1, Y: 1.0, CREATION DATE: 2022-04-07, REAL HERO: true, HAS TOOTHPICK: false, IMPACT SPEED: 21, WEAPON TYPE: null, MOOD: null, CAR INFO: no car, 4. max, X: -10, Y: 87.65, CREATION DATE: 2022-02-22, REAL HERO: false, HAS TOOTHPICK: true, IMPACT SPEED: 150, WEAPON TYPE: MACHINE_GUN, MOOD: null, CAR INFO: no car, 5. vityok, X: 3443, Y: 4334.0, CREATION DATE: 2022-04-07, REAL HERO: true, HAS TOOTHPICK: false, IMPACT SPEED: 12, WEAPON TYPE: AXE, MOOD: CALM, CAR INFO: CAR COOLNESS: false CAR SPEED: 12]]
+2022/04/09 14:16 INFO Коллекция успешно заполнена из файла
+2022/04/09 14:16 INFO Вызван метод: launchMainLoop

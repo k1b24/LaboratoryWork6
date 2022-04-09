@@ -50,6 +50,12 @@ public class Application {
                 Config.getTextSender().printMessage(new ErrorMessage("Клиент прислал пакет, который невозможно десериализовать"));
             }
         }
+        try {
+            connectionHandlerServer.closeServer();
+        } catch (IOException e) {
+            Config.getTextSender().printMessage(new ErrorMessage("При закрытии сервера произошла ошибка, "
+                    + "сервер закончил работу некорректно"));
+        }
     }
 
     private boolean fillCollection() {

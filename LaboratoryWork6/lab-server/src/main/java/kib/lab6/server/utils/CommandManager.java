@@ -84,7 +84,7 @@ public class CommandManager {
 
     private void appendCommandToHistory(String name) {
         lastExecutedCommands.addFirst(commands.get(name));
-        if (lastExecutedCommands.size() == AMOUNT_OF_COMMANDS_TO_SAVE) {
+        if (lastExecutedCommands.size() == AMOUNT_OF_COMMANDS_TO_SAVE + 1) {
             lastExecutedCommands.pollLast();
         }
     }

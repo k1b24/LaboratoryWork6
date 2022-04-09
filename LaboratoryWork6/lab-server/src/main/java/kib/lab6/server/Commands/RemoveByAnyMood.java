@@ -19,6 +19,7 @@ public class RemoveByAnyMood extends AbstractCommand {
 
     @Override
     public Object execute(Request request) {
+        System.out.println(request.getMoodArgumentToSend());
         Config.getCollectionManager().removeHumanByAnyMood(request.getMoodArgumentToSend());
         return new Response(new SuccessMessage("Случайный человек с настроением "
                 + request.getMoodArgumentToSend() + " удален"));

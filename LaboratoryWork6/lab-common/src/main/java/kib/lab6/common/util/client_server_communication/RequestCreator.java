@@ -77,7 +77,7 @@ public class RequestCreator {
 
     private Request createMoodRequest(InputedCommand inputedCommand) {
         if ("".equals(inputedCommand.getArguments()[0])) {
-            return new Request(inputedCommand.getName(), (Mood) null);
+            return new Request(inputedCommand.getName().toUpperCase(), (Mood) null);
         } else {
             try {
                 return new Request(inputedCommand.getName(), Mood.valueOf(inputedCommand.getArguments()[0]));

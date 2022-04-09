@@ -57,4 +57,9 @@ public class ConnectionHandlerServer {
         datagramChannel.send(bufferToSend, socketAddress);
         return socketAddress.toString();
     }
+
+    public void closeServer() throws IOException {
+        datagramChannel.close();
+        selector.close();
+    }
 }

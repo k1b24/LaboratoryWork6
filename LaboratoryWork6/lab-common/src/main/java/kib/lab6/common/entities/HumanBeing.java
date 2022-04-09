@@ -196,11 +196,11 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
         if (o == null) {
             return 1;
         }
-        int result = this.getName().compareTo(o.getName());
-        if (result == 0) {
-            result = this.getImpactSpeed().compareTo(o.getImpactSpeed());
-        }
-        return result;
+        Integer currentObjectPosition = (int) Math.sqrt(Math.pow(this.getCoordinates().getX(), 2)
+                + Math.pow(this.getCoordinates().getY(), 2));
+        Integer objectForComparingPosition = (int) Math.sqrt(Math.pow(o.getCoordinates().getX(), 2)
+                + Math.pow(o.getCoordinates().getY(), 2));
+        return (currentObjectPosition).compareTo(objectForComparingPosition);
     }
 
     @Override

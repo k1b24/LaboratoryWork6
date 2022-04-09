@@ -42,7 +42,7 @@ public class Application {
             InputedCommand userInputedCommand = commandListener.readCommand();
             if (userInputedCommand == null
                     || ("exit".equalsIgnoreCase(userInputedCommand.getName())
-                            && userInputedCommand.getArguments().length == 1)) {
+                            && userInputedCommand.getArguments().length == 0)) {
                 listeningAndSendingModeOn = false;
             } else if ("execute_script".equalsIgnoreCase(userInputedCommand.getName())
                     && userInputedCommand.getArguments().length == 1) {
@@ -67,6 +67,7 @@ public class Application {
             inputInetAddress();
         } catch (SocketException e) {
             Config.getTextSender().printMessage(new ErrorMessage("Произошла ошибка при открытии сетевого порта, пожалуйста, повторите ввод"));
+            inputInetAddress();
         } catch (NoSuchElementException e) {
             connectionHandlerClient = null;
         }
