@@ -1,6 +1,5 @@
 package kib.lab6.server.utils;
 
-import kib.lab6.common.util.client_server_communication.ConnectionConfig;
 import kib.lab6.common.util.client_server_communication.Request;
 import kib.lab6.common.util.client_server_communication.Response;
 import kib.lab6.common.util.client_server_communication.Serializer;
@@ -23,10 +22,10 @@ public class ConnectionHandlerServer {
     private final DatagramChannel datagramChannel;
     private SocketAddress socketAddress;
 
-    public ConnectionHandlerServer() throws IOException {
+    public ConnectionHandlerServer(int port) throws IOException {
         datagramChannel = DatagramChannel.open();
         selector = Selector.open();
-        datagramChannel.socket().bind(new InetSocketAddress(ConnectionConfig.getServerPort()));
+        datagramChannel.socket().bind(new InetSocketAddress(port));
         datagramChannel.configureBlocking(false);
         datagramChannel.register(selector, SelectionKey.OP_READ);
     }
@@ -41,7 +40,7 @@ public class ConnectionHandlerServer {
             SelectionKey key = iterator.next();
             iterator.remove();
             if (key.isReadable()) {
-                ByteBuffer packet = ByteBuffer.allocate(ConnectionConfig.getByteBufferSize());
+                ByteBuffer packet = ByteBuffer.allocate(datagramChannel.socket().getReceiveBufferSize());
                 socketAddress = datagramChannel.receive(packet);
                 ((Buffer) packet).flip();
                 byte[] bytes = new byte[packet.remaining()];

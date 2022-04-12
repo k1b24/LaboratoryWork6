@@ -21,9 +21,10 @@ public class CommandListener {
 
     public InputedCommand readCommand() {
         try {
+            SmartSplitter splitter = new SmartSplitter();
             System.out.print("↪ ");
             String line = scanner.nextLine();
-            String[] inputString = SmartSplitter.smartSplit(line).toArray(new String[0]);
+            String[] inputString = splitter.smartSplit(line).toArray(new String[0]);
             String commandName = inputString[0].toLowerCase();
             String[] commandArgs = Arrays.copyOfRange(inputString, 1, inputString.length);
             return new InputedCommand(commandName, commandArgs);

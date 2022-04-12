@@ -23,9 +23,10 @@ public class ExecutableFileReader extends AbstractFileReader {
 
     @Override
     public void parseFile() {
+        SmartSplitter splitter = new SmartSplitter();
         while (scannerOfFile.hasNext()) {
             String line = scannerOfFile.nextLine();
-            String[] inputString = SmartSplitter.smartSplit(line).toArray(new String[0]);
+            String[] inputString = splitter.smartSplit(line).toArray(new String[0]);
             String commandName = inputString[0].toLowerCase();
             String[] commandArgs = Arrays.copyOfRange(inputString, 1, inputString.length);
             commandsFromFile.add(new InputedCommand(commandName, commandArgs));

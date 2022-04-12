@@ -1,4 +1,4 @@
-package kib.lab6.server.Commands;
+package kib.lab6.server.commands;
 
 import kib.lab6.common.util.console_workers.ErrorMessage;
 import kib.lab6.common.util.client_server_communication.Request;
@@ -16,9 +16,9 @@ public class RemoveByID extends AbstractCommand {
 
     @Override
     public Object execute(Request request) {
-        int id = request.getNumberArgumentToSend();
+        long id = request.getNumberArgumentToSend();
         if (Config.getCollectionManager().getIDs().contains(id) && id > 0) {
-            Config.getCollectionManager().removeHumanById(id);
+            Config.getCollectionManager().removeHumanById((int) id);
             return new Response(new SuccessMessage("Человек с ID " + id + " успешно удален"));
         } else {
             return new Response(new ErrorMessage("Человек с таким ID не найден"));

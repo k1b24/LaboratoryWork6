@@ -2,6 +2,7 @@ package kib.lab6.server.csv_parser;
 
 import kib.lab6.common.abstractions.AbstractFileReader;
 import kib.lab6.common.entities.HumanBeing;
+import kib.lab6.common.entities.HumanValidator;
 import kib.lab6.common.util.console_workers.ErrorMessage;
 import kib.lab6.common.util.StringToTypeConverter;
 import kib.lab6.server.utils.Config;
@@ -22,10 +23,11 @@ public class CSVReader extends AbstractFileReader {
 
     private Scanner scannerOfFile;
     private String[] parameters;
-    private final ArrayList<String> peopleStrings = new ArrayList<>();
-    private final ArrayList<HashMap<String, String>> peopleInfo = new ArrayList<>();
-    private final ArrayList<HumanBeing> humanArray = new ArrayList<>();
-    private final Field[] humanBeingFields;
+    private ArrayList<String> peopleStrings = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> peopleInfo = new ArrayList<>();
+    private ArrayList<HumanBeing> humanArray = new ArrayList<>();
+    private Field[] humanBeingFields;
+    private final HumanValidator validator = new HumanValidator(Config.getTextSender());
 
     /**
      * Конструктор класса CSVReader, при инициализации с помощью рефлексии задает значение humanBeingFields
@@ -50,7 +52,7 @@ public class CSVReader extends AbstractFileReader {
         readPeople();
         for (HashMap<String, String> humanInfo : peopleInfo) {
             HumanBeing newHuman = createHuman(humanInfo);
-            if (Config.getHumanValidator().validateHuman(newHuman)) {
+            if (validator.validateHuman(newHuman)) {
                 humanArray.add(newHuman);
             } else {
                 Config.getTextSender().printMessage(new ErrorMessage("Ошибка при валидации данных, прочитанных из файла"));

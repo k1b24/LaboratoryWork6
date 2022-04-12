@@ -1,7 +1,7 @@
 package kib.lab6.server.utils;
 
-import kib.lab6.common.entities.HumanValidator;
 import kib.lab6.common.util.console_workers.TextSender;
+
 
 public final class Config {
 
@@ -10,7 +10,6 @@ public final class Config {
     private static final CollectionManager COLLECTION_MANAGER = new CollectionManager();
     private static final CommandManager COMMAND_MANAGER = new CommandManager();
     private static final TextSender TEXT_SENDER = new TextSender(System.out);
-    private static final HumanValidator HUMAN_VALIDATOR = new HumanValidator(getTextSender());
 
     private Config() {
 
@@ -34,10 +33,6 @@ public final class Config {
 
     public static TextSender getTextSender() {
         return TEXT_SENDER;
-    }
-
-    public static HumanValidator getHumanValidator() {
-        return HUMAN_VALIDATOR;
     }
 
     public static boolean isWorking() {

@@ -10,11 +10,10 @@ import java.nio.ByteBuffer;
 public final class Serializer {
 
     private Serializer() {
-
     }
 
     public static ByteBuffer serializeResponse(Response response) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream(ConnectionConfig.getByteBufferSize());
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bytes);
         oos.writeObject(response);
         oos.flush();
@@ -25,7 +24,7 @@ public final class Serializer {
     }
 
     public static ByteBuffer serializeRequest(Request request) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream(ConnectionConfig.getByteBufferSize());
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bytes);
         oos.writeObject(request);
         oos.flush();

@@ -1,4 +1,4 @@
-package kib.lab6.server.Commands;
+package kib.lab6.server.commands;
 
 import kib.lab6.common.util.console_workers.ErrorMessage;
 import kib.lab6.common.util.client_server_communication.Request;

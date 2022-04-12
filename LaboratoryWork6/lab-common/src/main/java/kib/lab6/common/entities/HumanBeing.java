@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -16,10 +17,12 @@ import java.time.LocalDate;
  */
 public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     private static final int MAX_IMPACT_SPEED_VALUE = 712;
+    private static final int MAX_NAME_SIZE = 50;
     private long id = -1;
     @Pattern(regexp = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")
     @NotNull
     @NotEmpty
+    @Size(min = 2, max = MAX_NAME_SIZE)
     private String name;
     @Valid
     @NotNull
