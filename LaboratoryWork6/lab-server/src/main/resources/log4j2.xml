@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true"
+               name="XMLConfigurationForServerLogger" packages="org.apache.logging.log4j">
+    <Filter type="ThresholdFilter" level="trace" />
+
+    <Appenders>
+        <RollingFile name="rollingFile"
+                     fileName="./logs/ServerLab6Log.log"
+                     filePattern="logs/app-%d{MM-dd-yyyy}-%i.log.gz"
+                     append="false">
+            <PatternLayout>
+                <Pattern>%d{yyyy/MM/dd HH:mm} %p %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy
+                        size="100 MB" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="rollingFile" />
+        </Root>
+    </Loggers>
+
+</Configuration>
